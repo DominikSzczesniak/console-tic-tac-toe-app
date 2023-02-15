@@ -1,0 +1,42 @@
+package pl.szczesniak.dominik.board;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import pl.szczesniak.dominik.tictactoe.Board;
+
+import static org.assertj.core.api.Assertions.*;
+
+
+class BoardTest {
+
+    private Board tut;
+
+    @BeforeEach
+    void setUp() {
+        tut = new Board(5, 5);
+    }
+
+    @Test
+    void placing_a_symbol_should_change_array() {
+        // when
+        tut.placeSymbol('A', 1, 1);
+
+        // then
+        final Character[][] boardView = tut.getCurrentState();
+        assertThat(boardView[0]).containsExactly(null, null, null, null, null);
+        assertThat(boardView[1]).containsExactly(null, 'A', null, null, null);
+        assertThat(boardView[2]).containsExactly(null, null, null, null, null);
+        assertThat(boardView[3]).containsExactly(null, null, null, null, null);
+        assertThat(boardView[4]).containsExactly(null, null, null, null, null);
+    }
+
+    @Test
+    void should_throw_exception_when_index_out_of_bounds() {
+        // when
+        final Throwable thrown = catchThrowable(() -> tut.placeSymbol('E', 5, 5));
+
+        // then
+        assertThat(thrown).isInstanceOf(ArrayIndexOutOfBoundsException.class);
+    }
+
+}
