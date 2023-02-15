@@ -30,12 +30,30 @@ class BoardTest {
     }
 
     @Test
-    void should_throw_exception_when_index_out_of_bounds() {
+    void should_throw_exception_when_trying_to_place_symbol_out_of_bounds() {
         // when
         final Throwable thrown = catchThrowable(() -> tut.placeSymbol('E', 5, 5));
 
         // then
         assertThat(thrown).isInstanceOf(ArrayIndexOutOfBoundsException.class);
+    }
+
+    @Test
+    void should_return_true_if_spot_is_taken() {
+        // when
+        tut.placeSymbol('O', 0, 0);
+
+        // then
+        assertThat(tut.isSpotTaken(0, 0)).isEqualTo(true);
+    }
+
+    @Test
+    void should_return_false_if_spot_is_not_taken() {
+        // when
+        tut.placeSymbol('O', 2, 0);
+
+        // then
+        assertThat(tut.isSpotTaken(0, 0)).isEqualTo(false);
     }
 
 }
