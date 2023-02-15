@@ -3,7 +3,7 @@ package pl.szczesniak.dominik.tictactoe;
 public class Player {
 
     final char symbol;
-    public Player(char symbol) {
+    public Player(final char symbol) {
         this.symbol = symbol;
     }
 

@@ -3,7 +3,6 @@ package pl.szczesniak.dominik.board;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pl.szczesniak.dominik.tictactoe.Board;
-
 import static org.assertj.core.api.Assertions.*;
 
 

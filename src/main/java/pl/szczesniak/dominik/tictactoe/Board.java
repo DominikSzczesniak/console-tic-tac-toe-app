@@ -12,18 +12,24 @@ public class Board {
         currentState = new Character[rowsNumber][columnNumber];
     }
 
-
+    public Character[][] getCurrentState() {
+        return deepCopy(currentState);
+    }
 
     public void placeSymbol(final char symbol, final int rowIndex, final int columnIndex) {
         currentState[rowIndex][columnIndex] = symbol;
     }
 
-    public boolean isSpotTaken(final int rowIndex, final int columnIndex) {
-        return currentState[rowIndex][columnIndex] != null;
+    public int getRowsNumber() {
+        return rowsNumber;
     }
 
-    public Character[][] getCurrentState() {
-        return deepCopy(currentState);
+    public int getColumnNumber() {
+        return columnNumber;
+    }
+
+    public boolean isSpotTaken(final int rowIndex, final int columnIndex) {
+        return currentState[rowIndex][columnIndex] != null;
     }
 
     private static Character[][] deepCopy(Character[][] original) {
@@ -34,13 +40,5 @@ public class Board {
             }
         }
         return copy;
-    }
-
-    public int getRowsNumber() {
-        return rowsNumber;
-    }
-
-    public int getColumnNumber() {
-        return columnNumber;
     }
 }
