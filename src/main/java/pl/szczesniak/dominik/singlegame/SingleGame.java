@@ -132,7 +132,6 @@ public class SingleGame {
         for (int i = 0; i < board.getRowsNumber(); i++) {
             for (int k = 0; k < board.getColumnNumber(); k++) {
                 if (drawArray[i][k] == null) {
-                    System.out.println("Game is still not over");
                     return false;
                 }
             }
