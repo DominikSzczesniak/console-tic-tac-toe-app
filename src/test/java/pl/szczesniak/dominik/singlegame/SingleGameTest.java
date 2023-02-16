@@ -200,7 +200,7 @@ class SingleGameTest {
         tut.makeMove(playerTwo, new PlayerMove(1, 2));
 
         // then
-        assertThat(tut.isDraw()).isEqualTo(false);
+        assertThat(tut.isDraw(playerOne, playerTwo)).isEqualTo(false);
     }
 
     @Test
@@ -221,7 +221,7 @@ class SingleGameTest {
         tut.makeMove(playerOne, new PlayerMove(0, 2));
 
         // then
-        assertThat(tut.isDraw()).isEqualTo(true);
+        assertThat(tut.isDraw(playerOne, playerTwo)).isEqualTo(true);
     }
 
 }

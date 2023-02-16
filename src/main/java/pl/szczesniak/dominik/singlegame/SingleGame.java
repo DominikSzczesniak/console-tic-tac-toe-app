@@ -127,11 +127,11 @@ public class SingleGame {
         return false;
     }
 
-    public boolean isDraw() {
+    public boolean isDraw(Player playerOne, Player playerTwo) {
         final Character[][] drawArray = getBoardView();
         for (int i = 0; i < board.getRowsNumber(); i++) {
             for (int k = 0; k < board.getColumnNumber(); k++) {
-                if (drawArray[i][k] == null) {
+                if (drawArray[i][k] == null && !checkIfPlayerWon(playerOne) && !checkIfPlayerWon(playerTwo)) {
                     return false;
                 }
             }
