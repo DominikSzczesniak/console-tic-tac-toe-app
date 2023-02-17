@@ -11,7 +11,7 @@ import static pl.szczesniak.dominik.tictactoe.singlegame.GameStatus.*;
 public class SingleGame {
 
     private final Board board;
-    private final Set<Symbol> supportedSymbols; // po co to, jak zmienic?
+    private final Set<Symbol> supportedSymbols;
     private final Player playerOne;
     private final Player playerTwo;
     private Player latestMoveByPlayer;

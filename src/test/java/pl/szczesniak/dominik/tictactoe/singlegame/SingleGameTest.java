@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import pl.szczesniak.dominik.tictactoe.exceptions.OtherPlayerTurnException;
 import pl.szczesniak.dominik.tictactoe.exceptions.PlayerIsNotThePartOfTheGameException;
 import pl.szczesniak.dominik.tictactoe.exceptions.SpotAlreadyTakenOnBoardException;
+import pl.szczesniak.dominik.tictactoe.exceptions.SymbolIsUnsupportedException;
 
 import static org.assertj.core.api.Assertions.*;
 import static pl.szczesniak.dominik.tictactoe.singlegame.GameStatus.*;
@@ -13,6 +14,7 @@ class SingleGameTest {
 
     private static final Symbol SYMBOL_O = new Symbol('O');
     private static final Symbol SYMBOL_X = new Symbol('X');
+    private static final Symbol SYMBOL_A = new Symbol('A');
 
     private Player playerOne;
     private Player playerTwo;
@@ -217,4 +219,18 @@ class SingleGameTest {
         assertThat(tut.isDraw()).isEqualTo(true);
     }
 
+    @Test
+    void player_shouldnt_be_able_to_make_a_move_with_unsupported_symbol() {
+        // given
+        Player playerThree = new Player(SYMBOL_A);
+        final SingleGame tutSymbol = new SingleGame(playerOne, playerThree);
+
+        // when
+        tutSymbol.makeMove(playerOne, new PlayerMove(0, 0));
+        final Throwable thrown = catchThrowable(() -> tutSymbol.makeMove(playerThree, new PlayerMove(1, 1)));;
+
+        // then
+        assertThat(thrown).isInstanceOf(SymbolIsUnsupportedException.class);
+
+    }
 }
