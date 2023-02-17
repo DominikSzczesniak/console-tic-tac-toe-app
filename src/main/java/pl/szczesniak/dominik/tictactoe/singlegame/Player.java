@@ -1,13 +1,14 @@
-package pl.szczesniak.dominik.tictactoe;
+package pl.szczesniak.dominik.tictactoe.singlegame;
 
 public class Player {
 
-    final char symbol;
-    public Player(final char symbol) {
+    private final Symbol symbol;
+
+    public Player(final Symbol symbol) {
         this.symbol = symbol;
     }
 
-    public char getSymbol() {
+    public Symbol getSymbol() {
         return symbol;
     }
 

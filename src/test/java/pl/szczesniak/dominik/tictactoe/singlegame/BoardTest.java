@@ -1,8 +1,8 @@
-package pl.szczesniak.dominik.board;
+package pl.szczesniak.dominik.tictactoe.singlegame;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import pl.szczesniak.dominik.tictactoe.Board;
+import pl.szczesniak.dominik.tictactoe.singlegame.Board;
 import static org.assertj.core.api.Assertions.*;
 
 

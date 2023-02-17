@@ -1,16 +1,16 @@
-package pl.szczesniak.dominik.tictactoe;
+package pl.szczesniak.dominik.tictactoe.singlegame;
 
 import java.util.Objects;
 
 public class Symbol {
-    private final char symbol;
+    private final char value;
 
     public Symbol(final char symbol) {
-        this.symbol = symbol;
+        this.value = symbol;
     }
 
-    public char getSymbol() {
-        return symbol;
+    public char getValue() {
+        return value;
     }
 
     @Override
@@ -18,11 +18,11 @@ public class Symbol {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Symbol symbol1 = (Symbol) o;
-        return symbol == symbol1.symbol;
+        return value == symbol1.value;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(symbol);
+        return Objects.hash(value);
     }
 }

@@ -1,12 +1,9 @@
-package pl.szczesniak.dominik.singlegame;
+package pl.szczesniak.dominik.tictactoe.singlegame;
 
-import pl.szczesniak.dominik.exceptions.OtherPlayerTurnException;
-import pl.szczesniak.dominik.exceptions.SpotAlreadyTakenOnBoardException;
-import pl.szczesniak.dominik.exceptions.SymbolIsUnsupportedException;
-import pl.szczesniak.dominik.tictactoe.Board;
-import pl.szczesniak.dominik.tictactoe.Player;
-import pl.szczesniak.dominik.tictactoe.PlayerMove;
-import pl.szczesniak.dominik.tictactoe.Symbol;
+import pl.szczesniak.dominik.tictactoe.exceptions.OtherPlayerTurnException;
+import pl.szczesniak.dominik.tictactoe.exceptions.PlayerIsNotThePartOfTheGameException;
+import pl.szczesniak.dominik.tictactoe.exceptions.SpotAlreadyTakenOnBoardException;
+import pl.szczesniak.dominik.tictactoe.exceptions.SymbolIsUnsupportedException;
 
 import java.util.Set;
 
@@ -14,12 +11,15 @@ public class SingleGame {
 
     private final Board board;
     private final Set<Symbol> supportedSymbols;
-
     private Player latestMoveByPlayer;
+    private final Player playerOne;
+    private final Player playerTwo;
 
-    public SingleGame() {
+    public SingleGame(Player playerOne, Player playerTwo) {
         board = new Board(3, 3);
         supportedSymbols = Set.of(new Symbol('X'), new Symbol('O'));
+        this.playerOne = playerOne;
+        this.playerTwo = playerTwo;
     }
 
 
@@ -28,15 +28,22 @@ public class SingleGame {
     }
 
     public void makeMove(final Player player, final PlayerMove move) {
-        checkCanUsePlayerSymbol(player.getSymbol());
+        checkPlayerIsPartOfSingleGame(player);
+        checkCanUsePlayerSymbol(player.getSymbol().getValue());
         checkIsPlayerTurn(player);
         checkIsSpotNotTaken(player, move);
-        board.placeSymbol(player.getSymbol(), move.getRowIndex(), move.getColumnIndex());
+        board.placeSymbol(player.getSymbol().getValue(), move.getRowIndex(), move.getColumnIndex());
         latestMoveByPlayer = player;
     }
 
+    private void checkPlayerIsPartOfSingleGame(Player player) {
+        if (!player.equals(playerOne) && !player.equals(playerTwo)) {
+            throw new PlayerIsNotThePartOfTheGameException("Player " + player + " is not part of the game");
+        }
+    }
+
     private void checkCanUsePlayerSymbol(final char playerSymbol) {
-        if (supportedSymbols.stream().noneMatch(symbol -> symbol.getSymbol() == playerSymbol)) {
+        if (supportedSymbols.stream().noneMatch(symbol -> symbol.getValue() == playerSymbol)) {
             throw new SymbolIsUnsupportedException("Symbol " + playerSymbol + " is unsupported.");
         }
     }
@@ -54,7 +61,7 @@ public class SingleGame {
     }
 
     public boolean checkIfPlayerWon(final Player player) {
-        final char symbol = player.getSymbol();
+        final char symbol = player.getSymbol().getValue();
         final Character[][] currentState = getBoardView();
         final Character[][] winningLine = {{null, null, null}, {null, null, null}, {null, null, null}};
         for (int i = 0; i < 8; i++) {

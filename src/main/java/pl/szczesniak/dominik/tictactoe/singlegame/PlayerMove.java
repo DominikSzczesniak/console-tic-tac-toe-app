@@ -1,4 +1,4 @@
-package pl.szczesniak.dominik.tictactoe;
+package pl.szczesniak.dominik.tictactoe.singlegame;
 
 public class PlayerMove {
 
