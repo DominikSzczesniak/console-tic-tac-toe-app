@@ -7,6 +7,7 @@ import pl.szczesniak.dominik.tictactoe.exceptions.PlayerIsNotThePartOfTheGameExc
 import pl.szczesniak.dominik.tictactoe.exceptions.SpotAlreadyTakenOnBoardException;
 
 import static org.assertj.core.api.Assertions.*;
+import static pl.szczesniak.dominik.tictactoe.singlegame.GameStatus.*;
 
 class SingleGameTest {
 
@@ -25,7 +26,7 @@ class SingleGameTest {
     @Test
     void board_should_be_empty_at_the_start_of_the_game() {
         // given
-        SingleGame tut = new SingleGame(playerOne, playerTwo);
+        final SingleGame tut = new SingleGame(playerOne, playerTwo);
 
         // when
         final Character[][] boardView = tut.getBoardView();
@@ -39,7 +40,7 @@ class SingleGameTest {
     @Test
     void player_one_should_make_first_move() {
         // given
-        SingleGame tut = new SingleGame(playerOne, playerTwo);
+        final SingleGame tut = new SingleGame(playerOne, playerTwo);
         final PlayerMove move = new PlayerMove(0, 0);
 
         // when
@@ -55,7 +56,7 @@ class SingleGameTest {
     @Test
     void every_player_should_make_single_move_when_it_is_their_turn() {
         // given
-        SingleGame tut = new SingleGame(playerOne, playerTwo);
+        final SingleGame tut = new SingleGame(playerOne, playerTwo);
 
         // when
         tut.makeMove(playerOne, new PlayerMove(0, 2));
@@ -71,7 +72,7 @@ class SingleGameTest {
     @Test
     void same_player_cant_make_many_moves_in_a_row() {
         // given
-        SingleGame tut = new SingleGame(playerOne, playerTwo);
+        final SingleGame tut = new SingleGame(playerOne, playerTwo);
 
         // when
         tut.makeMove(playerOne, new PlayerMove(0, 2));
@@ -90,7 +91,7 @@ class SingleGameTest {
     @Test
     void should_not_make_a_move_on_already_taken_spot() {
         // given
-        SingleGame tut = new SingleGame(playerOne, playerTwo);
+        final SingleGame tut = new SingleGame(playerOne, playerTwo);
 
         // when
         tut.makeMove(playerOne, new PlayerMove(1, 1));
@@ -107,7 +108,7 @@ class SingleGameTest {
     @Test
     void player_one_should_not_lose_turn_if_previously_chose_illegal_spot_to_place_symbol_on() {
         // given
-        SingleGame tut = new SingleGame(playerOne, playerTwo);
+        final SingleGame tut = new SingleGame(playerOne, playerTwo);
 
         // when
         tut.makeMove(playerOne, new PlayerMove(1, 1));
@@ -124,9 +125,9 @@ class SingleGameTest {
     }
 
     @Test
-    void player_that_is_not_a_part_in_the_game_shouldnt_be_able_to_make_a_move() {
+    void player_that_is_not_a_part_of_the_game_shouldnt_be_able_to_make_a_move() {
         // given
-        SingleGame tut = new SingleGame(playerOne, playerTwo);
+        final SingleGame tut = new SingleGame(playerOne, playerTwo);
         final Player player = new Player(SYMBOL_X);
 
         // when
@@ -134,94 +135,86 @@ class SingleGameTest {
 
         // then
         assertThat(thrown).isInstanceOf(PlayerIsNotThePartOfTheGameException.class);
-        assertThat(tut.getBoardView()).isEqualTo(new Character[3][3]);
     }
 
     @Test
     void should_not_modify_board_by_modifying_boards_view() {
         // given
-        SingleGame tut = new SingleGame(playerOne, playerTwo);
-        final Character[][] boardViewBefore = tut.getBoardView();
+        final SingleGame tut = new SingleGame(playerOne, playerTwo);
+        final Character[][] boardView = tut.getBoardView();
 
         // when
-        boardViewBefore[0][0] = 'O';
-        boardViewBefore[0][1] = 'O';
+        boardView[0][0] = 'O';
+        boardView[0][1] = 'O';
 
         // then
-        final Character[][] boardViewAfter = tut.getBoardView();
-        assertThat(boardViewAfter[0]).containsExactly(null, null, null);
-        assertThat(boardViewAfter[1]).containsExactly(null, null, null);
-        assertThat(boardViewAfter[2]).containsExactly(null, null, null);
-
-        assertThat(boardViewBefore[0]).containsExactly('O', 'O', null);
+        assertThat(tut.getBoardView()).satisfies(board -> {
+            assertThat(board[0]).containsExactly(null, null, null);
+            assertThat(board[1]).containsExactly(null, null, null);
+            assertThat(board[2]).containsExactly(null, null, null);
+        });
     }
 
     @Test
     void game_should_be_won_by_player_one() {
-        // given
-        SingleGame tut = new SingleGame(playerOne, playerTwo);
-
         // when
-        tut.makeMove(playerOne, new PlayerMove(0, 0));
-        tut.makeMove(playerTwo, new PlayerMove(1, 1));
-        tut.makeMove(playerOne, new PlayerMove(0, 1));
-        tut.makeMove(playerTwo, new PlayerMove(2, 2));
-        tut.makeMove(playerOne, new PlayerMove(0, 2));
+        final SingleGame tut = new SingleGame(playerOne, playerTwo);
 
         // then
-        assertThat(tut.checkIfPlayerWon(playerOne)).isEqualTo(true);
+        assertThat(tut.makeMove(playerOne, new PlayerMove(0, 0)).getGameStatus()).isEqualTo(IN_PROGRESS);
+        assertThat(tut.makeMove(playerTwo, new PlayerMove(1, 1)).getGameStatus()).isEqualTo(IN_PROGRESS);
+        assertThat(tut.makeMove(playerOne, new PlayerMove(0, 1)).getGameStatus()).isEqualTo(IN_PROGRESS);
+        assertThat(tut.makeMove(playerTwo, new PlayerMove(2, 2)).getGameStatus()).isEqualTo(IN_PROGRESS);
+        assertThat(tut.makeMove(playerOne, new PlayerMove(0, 2)).getGameStatus()).isEqualTo(WIN);
     }
 
     @Test
     void game_should_be_won_by_player_two() {
-        // given
-        SingleGame tut = new SingleGame(playerOne, playerTwo);
-
         // when
-        tut.makeMove(playerOne, new PlayerMove(0, 0));
-        tut.makeMove(playerTwo, new PlayerMove(1, 1));
-        tut.makeMove(playerOne, new PlayerMove(0, 1));
-        tut.makeMove(playerTwo, new PlayerMove(1, 2));
-        tut.makeMove(playerOne, new PlayerMove(2, 1));
-        tut.makeMove(playerTwo, new PlayerMove(1, 0));
+        final SingleGame tut = new SingleGame(playerOne, playerTwo);
 
         // then
-        assertThat(tut.checkIfPlayerWon(playerTwo)).isEqualTo(true);
+        assertThat(tut.makeMove(playerOne, new PlayerMove(0, 0)).getGameStatus()).isEqualTo(IN_PROGRESS);
+        assertThat(tut.makeMove(playerTwo, new PlayerMove(1, 1)).getGameStatus()).isEqualTo(IN_PROGRESS);
+        assertThat(tut.makeMove(playerOne, new PlayerMove(0, 1)).getGameStatus()).isEqualTo(IN_PROGRESS);
+        assertThat(tut.makeMove(playerTwo, new PlayerMove(1, 2)).getGameStatus()).isEqualTo(IN_PROGRESS);
+        assertThat(tut.makeMove(playerOne, new PlayerMove(2, 1)).getGameStatus()).isEqualTo(IN_PROGRESS);
+        assertThat(tut.makeMove(playerTwo, new PlayerMove(1, 0)).getGameStatus()).isEqualTo(WIN);
     }
 
     @Test
     void game_shouldnt_be_a_draw_if_board_isnt_filled() {
         // given
-        SingleGame tut = new SingleGame(playerOne, playerTwo);
+        final SingleGame tut = new SingleGame(playerOne, playerTwo);
 
         // when
-        tut.makeMove(playerOne, new PlayerMove(1, 0));
-        tut.makeMove(playerTwo, new PlayerMove(1, 1));
-        tut.makeMove(playerOne, new PlayerMove(0, 1));
-        tut.makeMove(playerTwo, new PlayerMove(1, 2));
+        assertThat(tut.makeMove(playerOne, new PlayerMove(1, 0)).getGameStatus()).isEqualTo(IN_PROGRESS);
+        assertThat(tut.makeMove(playerTwo, new PlayerMove(1, 1)).getGameStatus()).isEqualTo(IN_PROGRESS);
+        assertThat(tut.makeMove(playerOne, new PlayerMove(0, 1)).getGameStatus()).isEqualTo(IN_PROGRESS);
+        assertThat(tut.makeMove(playerTwo, new PlayerMove(1, 2)).getGameStatus()).isEqualTo(IN_PROGRESS);
 
         // then
-        assertThat(tut.isDraw(playerOne, playerTwo)).isEqualTo(false);
+        assertThat(tut.isDraw()).isEqualTo(false);
     }
 
     @Test
     void game_should_be_a_draw_if_board_is_filled_and_no_winner() {
         // given
-        SingleGame tut = new SingleGame(playerOne, playerTwo);
+        final SingleGame tut = new SingleGame(playerOne, playerTwo);
 
         // when
-        tut.makeMove(playerOne, new PlayerMove(0, 0));
-        tut.makeMove(playerTwo, new PlayerMove(0, 1));
-        tut.makeMove(playerOne, new PlayerMove(1, 0));
-        tut.makeMove(playerTwo, new PlayerMove(2, 0));
-        tut.makeMove(playerOne, new PlayerMove(1, 1));
-        tut.makeMove(playerTwo, new PlayerMove(2, 2));
-        tut.makeMove(playerOne, new PlayerMove(2, 1));
-        tut.makeMove(playerTwo, new PlayerMove(1, 2));
-        tut.makeMove(playerOne, new PlayerMove(0, 2));
+        assertThat(tut.makeMove(playerOne, new PlayerMove(0, 0)).getGameStatus()).isEqualTo(IN_PROGRESS);
+        assertThat(tut.makeMove(playerTwo, new PlayerMove(0, 1)).getGameStatus()).isEqualTo(IN_PROGRESS);
+        assertThat(tut.makeMove(playerOne, new PlayerMove(1, 0)).getGameStatus()).isEqualTo(IN_PROGRESS);
+        assertThat(tut.makeMove(playerTwo, new PlayerMove(2, 0)).getGameStatus()).isEqualTo(IN_PROGRESS);
+        assertThat(tut.makeMove(playerOne, new PlayerMove(1, 1)).getGameStatus()).isEqualTo(IN_PROGRESS);
+        assertThat(tut.makeMove(playerTwo, new PlayerMove(2, 2)).getGameStatus()).isEqualTo(IN_PROGRESS);
+        assertThat(tut.makeMove(playerOne, new PlayerMove(2, 1)).getGameStatus()).isEqualTo(IN_PROGRESS);
+        assertThat(tut.makeMove(playerTwo, new PlayerMove(1, 2)).getGameStatus()).isEqualTo(IN_PROGRESS);
+        assertThat(tut.makeMove(playerOne, new PlayerMove(0, 2)).getGameStatus()).isEqualTo(DRAW);
 
         // then
-        assertThat(tut.isDraw(playerOne, playerTwo)).isEqualTo(true);
+        assertThat(tut.isDraw()).isEqualTo(true);
     }
 
 }

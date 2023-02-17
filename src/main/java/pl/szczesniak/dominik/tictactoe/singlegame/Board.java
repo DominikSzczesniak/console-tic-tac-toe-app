@@ -41,4 +41,12 @@ public class Board {
         }
         return copy;
     }
+
+    public boolean hasSymbolOnFields(char symbol, PairOfCoordinates first, PairOfCoordinates second, PairOfCoordinates third) {
+
+
+        return currentState[first.getRow()][first.getColumn()] != null && currentState[first.getRow()][first.getColumn()] == symbol &&
+                currentState[second.getRow()][second.getColumn()] != null && currentState[second.getRow()][second.getColumn()]== symbol &&
+                currentState[third.getRow()][third.getColumn()] != null && currentState[third.getRow()][third.getColumn()]== symbol;
+    }
 }
