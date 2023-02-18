@@ -1,5 +1,6 @@
 package pl.szczesniak.dominik.tictactoe.singlegame;
 
+import org.assertj.core.api.ThrowableAssert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pl.szczesniak.dominik.tictactoe.exceptions.OtherPlayerTurnException;
@@ -12,17 +13,13 @@ import static pl.szczesniak.dominik.tictactoe.singlegame.GameStatus.*;
 
 class SingleGameTest {
 
-    private static final Symbol SYMBOL_O = new Symbol('O');
-    private static final Symbol SYMBOL_X = new Symbol('X');
-    private static final Symbol SYMBOL_A = new Symbol('A');
-
     private Player playerOne;
     private Player playerTwo;
 
     @BeforeEach
     void setUp() {
-        playerOne = new Player(SYMBOL_O);
-        playerTwo = new Player(SYMBOL_X);
+        playerOne = new Player(new Symbol('O'));
+        playerTwo = new Player(new Symbol('X'));
     }
 
     @Test
@@ -108,16 +105,15 @@ class SingleGameTest {
     }
 
 //    @Test
-//    void should_not_be_able_to_choose_invalid_symbol() {  NIE POTRAFIE W SINGLE GAME TEGO ZROBIC
+//    void should_not_be_able_to_choose_invalid_symbol() {  // NIE POTRAFIE W SINGLE GAME TEGO ZROBIC
 //        // given
 //        final Player playerThree = new Player(new Symbol('A'));
 //
 //        // when
-//        SingleGame tut = new SingleGame(playerOne, playerThree);
-//        Throwable thrown = catchThrowable(() -> tut = new SingleGame(playerOne, playerThree));
+//        Throwable thrown = catchThrowable(() -> here = new SingleGame(playerOne, playerThree));
 //
 //        // then
-//        assertThatThrownBy()
+//        assertThatThrownBy((ThrowableAssert.ThrowingCallable) thrown).isInstanceOf(SymbolIsUnsupportedException.class);
 //    }
 
     @Test
@@ -143,7 +139,7 @@ class SingleGameTest {
     void player_that_is_not_a_part_of_the_game_shouldnt_be_able_to_make_a_move() {
         // given
         final SingleGame tut = new SingleGame(playerOne, playerTwo);
-        final Player player = new Player(SYMBOL_X);
+        final Player player = new Player(new Symbol('X'));
 
         // when
         final Throwable thrown = catchThrowable(() -> tut.makeMove(player, new PlayerMove(1, 1)));

@@ -12,23 +12,23 @@ public class Board {
         currentState = new Character[rowsNumber][columnNumber];
     }
 
-    public Character[][] getCurrentState() {
+    Character[][] getCurrentState() {
         return deepCopy(currentState);
     }
 
-    public void placeSymbol(final char symbol, final int rowIndex, final int columnIndex) {
+    void placeSymbol(final char symbol, final int rowIndex, final int columnIndex) {
         currentState[rowIndex][columnIndex] = symbol;
     }
 
-    public int getRowsNumber() {
+    int getRowsNumber() {
         return rowsNumber;
     }
 
-    public int getColumnNumber() {
+    int getColumnNumber() {
         return columnNumber;
     }
 
-    public boolean isSpotTaken(final int rowIndex, final int columnIndex) {
+    boolean isSpotTaken(final int rowIndex, final int columnIndex) {
         return currentState[rowIndex][columnIndex] != null;
     }
 
@@ -42,7 +42,7 @@ public class Board {
         return copy;
     }
 
-    public boolean hasSymbolOnFields(char symbol, PairOfCoordinates first, PairOfCoordinates second, PairOfCoordinates third) {
+    boolean hasSymbolOnFields(char symbol, PairOfCoordinates first, PairOfCoordinates second, PairOfCoordinates third) {
 
 
         return currentState[first.getRow()][first.getColumn()] != null && currentState[first.getRow()][first.getColumn()] == symbol &&

@@ -1,6 +1,7 @@
 package pl.szczesniak.dominik.tictactoe.Application;
 
 import pl.szczesniak.dominik.tictactoe.singlegame.*;
+
 import java.util.Scanner;
 
 public class TicTacToeApp {
@@ -15,20 +16,29 @@ public class TicTacToeApp {
         Scanner scan = new Scanner(System.in);
         FieldNumberTranslator translator = new FieldNumberTranslator();
 
+
         GameResult latestResult;
         Player nextPlayer = playerOne;
-
         do {
-            System.out.println(nextPlayer.getSymbol() + " to move");
             printer.printBoard(game.getBoardView());
+            System.out.println(nextPlayer.getSymbol() + " to move");
             FieldCoordinates coordinates = translator.toCoordinates(getNumber(scan));
             latestResult = game.makeMove(nextPlayer, new PlayerMove(coordinates.getRow(), coordinates.getColumn()));
             nextPlayer = nextPlayer == playerTwo ? playerOne : playerTwo;
         } while (latestResult.getGameStatus().equals(GameStatus.IN_PROGRESS));
 
-        printer.printBoard(game.getBoardView());
-        System.out.println("Congratulations, " + nextPlayer.getSymbol() + " won the game.");
 
+        printer.printBoard(game.getBoardView());
+        printResultOfTheGame(latestResult);
+
+    }
+
+    private static void printResultOfTheGame(GameResult result) {
+        if (result.getGameStatus().equals(GameStatus.WIN)) {
+            System.out.println("Congratulations, " + result.getWhoWon() + " won the game.");
+        } else {
+            System.out.println("It's a draw.");
+        }
     }
 
     private static int getNumber(Scanner scanner) {

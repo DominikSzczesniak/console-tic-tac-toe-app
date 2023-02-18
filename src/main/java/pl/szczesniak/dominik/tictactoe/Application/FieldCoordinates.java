@@ -9,11 +9,11 @@ public class FieldCoordinates {
         this.column = column;
     }
 
-    public int getRow() {
+    int getRow() {
         return row;
     }
 
-    public int getColumn() {
+    int getColumn() {
         return column;
     }
 }

@@ -3,6 +3,9 @@ package pl.szczesniak.dominik.tictactoe.singlegame;
 import pl.szczesniak.dominik.tictactoe.exceptions.OtherPlayerTurnException;
 import pl.szczesniak.dominik.tictactoe.exceptions.PlayerIsNotThePartOfTheGameException;
 import pl.szczesniak.dominik.tictactoe.exceptions.SpotAlreadyTakenOnBoardException;
+import pl.szczesniak.dominik.tictactoe.exceptions.SymbolIsUnsupportedException;
+import java.util.Set;
+
 import static pl.szczesniak.dominik.tictactoe.singlegame.GameStatus.*;
 
 public class SingleGame {
@@ -68,7 +71,7 @@ public class SingleGame {
         return new GameResult(IN_PROGRESS, null);
     }
 
-    public boolean checkIfPlayerWon(final Player player) {
+    private boolean checkIfPlayerWon(final Player player) {
         final char symbol = player.getSymbol().getValue();
 
         if (checkHorizontally(symbol)) {
@@ -112,7 +115,7 @@ public class SingleGame {
         return false;
     }
 
-    public boolean isDraw() {
+    boolean isDraw() {
         final Character[][] drawArray = getBoardView();
         for (int i = 0; i < board.getRowsNumber(); i++) {
             for (int k = 0; k < board.getColumnNumber(); k++) {
