@@ -4,7 +4,7 @@ public class PairOfCoordinates {
     private final int row;
     private final int column;
 
-    public PairOfCoordinates(int row, int column) {
+    public PairOfCoordinates(final int row, final int column) {
         this.row = row;
         this.column = column;
     }

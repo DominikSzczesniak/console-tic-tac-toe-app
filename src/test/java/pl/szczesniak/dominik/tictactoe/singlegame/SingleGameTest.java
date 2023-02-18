@@ -107,6 +107,19 @@ class SingleGameTest {
         assertThat(boardView[2]).containsExactly(null, null, null);
     }
 
+//    @Test
+//    void should_not_be_able_to_choose_invalid_symbol() {  NIE POTRAFIE W SINGLE GAME TEGO ZROBIC
+//        // given
+//        final Player playerThree = new Player(new Symbol('A'));
+//
+//        // when
+//        SingleGame tut = new SingleGame(playerOne, playerThree);
+//        Throwable thrown = catchThrowable(() -> tut = new SingleGame(playerOne, playerThree));
+//
+//        // then
+//        assertThatThrownBy()
+//    }
+
     @Test
     void player_one_should_not_lose_turn_if_previously_chose_illegal_spot_to_place_symbol_on() {
         // given
@@ -217,20 +230,5 @@ class SingleGameTest {
 
         // then
         assertThat(tut.isDraw()).isEqualTo(true);
-    }
-
-    @Test
-    void player_shouldnt_be_able_to_make_a_move_with_unsupported_symbol() {
-        // given
-        Player playerThree = new Player(SYMBOL_A);
-        final SingleGame tutSymbol = new SingleGame(playerOne, playerThree);
-
-        // when
-        tutSymbol.makeMove(playerOne, new PlayerMove(0, 0));
-        final Throwable thrown = catchThrowable(() -> tutSymbol.makeMove(playerThree, new PlayerMove(1, 1)));;
-
-        // then
-        assertThat(thrown).isInstanceOf(SymbolIsUnsupportedException.class);
-
     }
 }

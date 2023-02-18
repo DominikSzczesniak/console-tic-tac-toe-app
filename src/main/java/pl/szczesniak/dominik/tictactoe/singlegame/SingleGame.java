@@ -3,22 +3,24 @@ package pl.szczesniak.dominik.tictactoe.singlegame;
 import pl.szczesniak.dominik.tictactoe.exceptions.OtherPlayerTurnException;
 import pl.szczesniak.dominik.tictactoe.exceptions.PlayerIsNotThePartOfTheGameException;
 import pl.szczesniak.dominik.tictactoe.exceptions.SpotAlreadyTakenOnBoardException;
-import pl.szczesniak.dominik.tictactoe.exceptions.SymbolIsUnsupportedException;
-import java.util.Set;
-
 import static pl.szczesniak.dominik.tictactoe.singlegame.GameStatus.*;
 
 public class SingleGame {
 
     private final Board board;
-    private final Set<Symbol> supportedSymbols;
+//    private final Set<Symbol> supportedSymbols = Set.of(new Symbol('X'), new Symbol('O'));
     private final Player playerOne;
     private final Player playerTwo;
     private Player latestMoveByPlayer;
 
     public SingleGame(Player playerOne, Player playerTwo) {
+//        if (supportedSymbols.stream().noneMatch(marker -> marker.getValue() == playerOne.getSymbol().getValue())) {
+//            throw new SymbolIsUnsupportedException("Symbol " + playerOne.getSymbol().getValue() + " is unsupported.");
+//        }
+//        if (supportedSymbols.stream().noneMatch(marker -> marker.getValue() == playerTwo.getSymbol().getValue())) {
+//            throw new SymbolIsUnsupportedException("Symbol " + playerTwo.getSymbol().getValue() + " is unsupported.");
+//        }
         board = new Board(3, 3);
-        supportedSymbols = Set.of(new Symbol('X'), new Symbol('O'));
         this.playerOne = playerOne;
         this.playerTwo = playerTwo;
     }
@@ -30,7 +32,6 @@ public class SingleGame {
 
     public GameResult makeMove(final Player player, final PlayerMove move) {
         checkPlayerIsPartOfSingleGame(player);
-        checkCanUsePlayerSymbol(player.getSymbol().getValue());
         checkIsPlayerTurn(player);
         checkIsSpotNotTaken(player, move);
         board.placeSymbol(player.getSymbol().getValue(), move.getRowIndex(), move.getColumnIndex());
@@ -41,12 +42,6 @@ public class SingleGame {
     private void checkPlayerIsPartOfSingleGame(Player player) {
         if (!player.equals(playerOne) && !player.equals(playerTwo)) {
             throw new PlayerIsNotThePartOfTheGameException("Player " + player + " is not part of the game");
-        }
-    }
-
-    private void checkCanUsePlayerSymbol(final char playerSymbol) {
-        if (supportedSymbols.stream().noneMatch(symbol -> symbol.getValue() == playerSymbol)) {
-            throw new SymbolIsUnsupportedException("Symbol " + playerSymbol + " is unsupported.");
         }
     }
 

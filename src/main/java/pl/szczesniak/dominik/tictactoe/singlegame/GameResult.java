@@ -6,7 +6,7 @@ public class GameResult {
     private final GameStatus gameStatus;
     private final Player whoWon;
 
-    public GameResult(GameStatus gameStatus, Player whoWon) {
+    public GameResult(final GameStatus gameStatus, final Player whoWon) {
         if (gameStatus.equals(GameStatus.WIN) && whoWon == null) {
             throw new IllegalArgumentException("Game status = WIN, player whoWon cannot be null.");
         }
