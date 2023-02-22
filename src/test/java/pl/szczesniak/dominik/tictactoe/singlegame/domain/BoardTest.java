@@ -1,9 +1,10 @@
-package pl.szczesniak.dominik.tictactoe.singlegame;
+package pl.szczesniak.dominik.tictactoe.singlegame.domain;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import pl.szczesniak.dominik.tictactoe.singlegame.Board;
-import static org.assertj.core.api.Assertions.*;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 
 
 class BoardTest {

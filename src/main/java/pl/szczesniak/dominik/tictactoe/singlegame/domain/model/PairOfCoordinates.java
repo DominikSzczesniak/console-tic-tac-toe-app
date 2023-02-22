@@ -1,4 +1,4 @@
-package pl.szczesniak.dominik.tictactoe.singlegame;
+package pl.szczesniak.dominik.tictactoe.singlegame.domain.model;
 
 public class PairOfCoordinates {
     private final int row;

@@ -1,8 +1,8 @@
-package pl.szczesniak.dominik.tictactoe.Application;
+package pl.szczesniak.dominik.tictactoe.singlegame.application;
 
 import org.junit.jupiter.api.Test;
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 class FieldNumberTranslatorTest {
 

@@ -1,8 +1,9 @@
-package pl.szczesniak.dominik.tictactoe.singlegame;
+package pl.szczesniak.dominik.tictactoe.singlegame.application;
 
 public class BoardPrinter {
 
-    Character[][] boardPrint = {{'1', '2', '3'}, {'4', '5', '6'}, {'7', '8', '9'}};;
+    private final Character[][] boardPrint = {{' ', ' ', ' '}, {' ', ' ', ' '}, {' ', ' ', ' '}};
+    private final Character[][] boardWithNumbers = {{'1', '2', '3'}, {'4', '5', '6'}, {'7', '8', '9'}};
 
 //    -------------------------------------------------------------         -------------------------------
 //    |                   |                   |                   |         |         |         |         |
@@ -39,6 +40,23 @@ public class BoardPrinter {
                 "-------------------------------\n" +
                 "|         |         |         |\n" +
                 "|    " + boardPrint[2][0] + "    |    " + boardPrint[2][1] + "    |    " + boardPrint[2][2] + "    |\n" +
+                "|         |         |         |\n" +
+                "-------------------------------");
+    }
+
+    public void printBoardWithNumbers(Character[][] board) {
+        System.out.println("" +
+                "-------------------------------\n" +
+                "|         |         |         |\n" +
+                "|    " + boardWithNumbers[0][0] + "    |    " + boardWithNumbers[0][1] + "    |    " + boardWithNumbers[0][2] + "    |\n" +
+                "|         |         |         |\n" +
+                "-------------------------------\n" +
+                "|         |         |         |\n" +
+                "|    " + boardWithNumbers[1][0] + "    |    " + boardWithNumbers[1][1] + "    |    " + boardWithNumbers[1][2] + "    |\n" +
+                "|         |         |         |\n" +
+                "-------------------------------\n" +
+                "|         |         |         |\n" +
+                "|    " + boardWithNumbers[2][0] + "    |    " + boardWithNumbers[2][1] + "    |    " + boardWithNumbers[2][2] + "    |\n" +
                 "|         |         |         |\n" +
                 "-------------------------------");
     }

@@ -1,4 +1,4 @@
-package pl.szczesniak.dominik.tictactoe.Application;
+package pl.szczesniak.dominik.tictactoe.singlegame.application;
 
 public class FieldCoordinates {
     private final int row;

@@ -1,15 +1,22 @@
-package pl.szczesniak.dominik.tictactoe.singlegame;
+package pl.szczesniak.dominik.tictactoe.singlegame.domain;
 
-import org.assertj.core.api.ThrowableAssert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import pl.szczesniak.dominik.tictactoe.exceptions.OtherPlayerTurnException;
-import pl.szczesniak.dominik.tictactoe.exceptions.PlayerIsNotThePartOfTheGameException;
-import pl.szczesniak.dominik.tictactoe.exceptions.SpotAlreadyTakenOnBoardException;
-import pl.szczesniak.dominik.tictactoe.exceptions.SymbolIsUnsupportedException;
+import pl.szczesniak.dominik.tictactoe.singlegame.domain.exceptions.OtherPlayerTurnException;
+import pl.szczesniak.dominik.tictactoe.singlegame.domain.exceptions.PlayerIsNotThePartOfTheGameException;
+import pl.szczesniak.dominik.tictactoe.singlegame.domain.exceptions.SpotAlreadyTakenOnBoardException;
+import pl.szczesniak.dominik.tictactoe.singlegame.domain.exceptions.SymbolIsUnsupportedException;
+import pl.szczesniak.dominik.tictactoe.singlegame.domain.model.GameResult;
+import pl.szczesniak.dominik.tictactoe.singlegame.domain.model.Player;
+import pl.szczesniak.dominik.tictactoe.singlegame.domain.model.PlayerMove;
+import pl.szczesniak.dominik.tictactoe.singlegame.domain.model.PlayerName;
+import pl.szczesniak.dominik.tictactoe.singlegame.domain.model.Symbol;
 
-import static org.assertj.core.api.Assertions.*;
-import static pl.szczesniak.dominik.tictactoe.singlegame.GameStatus.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
+import static pl.szczesniak.dominik.tictactoe.singlegame.domain.model.GameStatus.DRAW;
+import static pl.szczesniak.dominik.tictactoe.singlegame.domain.model.GameStatus.IN_PROGRESS;
+import static pl.szczesniak.dominik.tictactoe.singlegame.domain.model.GameStatus.WIN;
 
 class SingleGameTest {
 
@@ -18,8 +25,8 @@ class SingleGameTest {
 
     @BeforeEach
     void setUp() {
-        playerOne = new Player(new Symbol('O'));
-        playerTwo = new Player(new Symbol('X'));
+        playerOne = new Player(new Symbol('O'), new PlayerName("playerOne"));
+        playerTwo = new Player(new Symbol('X'), new PlayerName("playerTwo"));
     }
 
     @Test
@@ -104,17 +111,17 @@ class SingleGameTest {
         assertThat(boardView[2]).containsExactly(null, null, null);
     }
 
-//    @Test
-//    void should_not_be_able_to_choose_invalid_symbol() {  // NIE POTRAFIE W SINGLE GAME TEGO ZROBIC
-//        // given
-//        final Player playerThree = new Player(new Symbol('A'));
-//
-//        // when
-//        Throwable thrown = catchThrowable(() -> here = new SingleGame(playerOne, playerThree));
-//
-//        // then
-//        assertThatThrownBy((ThrowableAssert.ThrowingCallable) thrown).isInstanceOf(SymbolIsUnsupportedException.class);
-//    }
+    @Test
+    void should_not_be_able_to_choose_invalid_symbol() {
+        // given
+        final Player playerThree = new Player(new Symbol('A'), new PlayerName("Player"));
+
+        // when
+        Throwable thrown = catchThrowable(() -> new SingleGame(playerOne, playerThree));
+
+        // then
+        assertThat(thrown).isInstanceOf(SymbolIsUnsupportedException.class);
+    }
 
     @Test
     void player_one_should_not_lose_turn_if_previously_chose_illegal_spot_to_place_symbol_on() {
@@ -139,7 +146,7 @@ class SingleGameTest {
     void player_that_is_not_a_part_of_the_game_shouldnt_be_able_to_make_a_move() {
         // given
         final SingleGame tut = new SingleGame(playerOne, playerTwo);
-        final Player player = new Player(new Symbol('X'));
+        final Player player = new Player(new Symbol('X'), new PlayerName("player"));
 
         // when
         final Throwable thrown = catchThrowable(() -> tut.makeMove(player, new PlayerMove(1, 1)));
@@ -194,7 +201,7 @@ class SingleGameTest {
     }
 
     @Test
-    void game_shouldnt_be_a_draw_if_board_isnt_filled() {
+    void game_should_be_in_progress() {
         // given
         final SingleGame tut = new SingleGame(playerOne, playerTwo);
 
@@ -202,7 +209,8 @@ class SingleGameTest {
         assertThat(tut.makeMove(playerOne, new PlayerMove(1, 0)).getGameStatus()).isEqualTo(IN_PROGRESS);
         assertThat(tut.makeMove(playerTwo, new PlayerMove(1, 1)).getGameStatus()).isEqualTo(IN_PROGRESS);
         assertThat(tut.makeMove(playerOne, new PlayerMove(0, 1)).getGameStatus()).isEqualTo(IN_PROGRESS);
-        assertThat(tut.makeMove(playerTwo, new PlayerMove(1, 2)).getGameStatus()).isEqualTo(IN_PROGRESS);
+        GameResult finalGameResult = tut.makeMove(playerTwo, new PlayerMove(1, 2));
+        assertThat(finalGameResult.getGameStatus()).isEqualTo(IN_PROGRESS);
 
         // then
         assertThat(tut.isDraw()).isEqualTo(false);

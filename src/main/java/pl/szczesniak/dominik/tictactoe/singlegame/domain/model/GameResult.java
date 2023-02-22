@@ -1,4 +1,4 @@
-package pl.szczesniak.dominik.tictactoe.singlegame;
+package pl.szczesniak.dominik.tictactoe.singlegame.domain.model;
 
 import java.util.Optional;
 
@@ -21,7 +21,9 @@ public class GameResult {
         return gameStatus;
     }
 
-    public Optional<Player> getWhoWon() {
-        return Optional.ofNullable(whoWon);
+    public PlayerName getWhoWon() {
+        return whoWon.getName();
     }
+
+
 }

@@ -1,6 +1,6 @@
-package pl.szczesniak.dominik.tictactoe.Application;
+package pl.szczesniak.dominik.tictactoe.singlegame.application;
 
-public class FieldNumberTranslator {
+class FieldNumberTranslator {
 
     FieldCoordinates toCoordinates(final int number) {
         int row = (number - 1) / 3;
