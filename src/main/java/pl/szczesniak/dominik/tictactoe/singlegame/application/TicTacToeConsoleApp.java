@@ -8,26 +8,38 @@ import pl.szczesniak.dominik.tictactoe.singlegame.domain.model.Player;
 import pl.szczesniak.dominik.tictactoe.singlegame.domain.model.PlayerMove;
 import pl.szczesniak.dominik.tictactoe.singlegame.domain.model.PlayerName;
 import pl.szczesniak.dominik.tictactoe.singlegame.domain.model.Symbol;
-
 import java.util.Scanner;
 
 public class TicTacToeConsoleApp {
-	public void run() {
-		final Scanner scan = new Scanner(System.in);
+
+	final Scanner scan = new Scanner(System.in);
+	private final Player playerOne;
+	private final Player playerTwo;
+	private int playAgain;
+	private final FieldNumberTranslator translator = new FieldNumberTranslator();
+
+	public TicTacToeConsoleApp() {
 		System.out.println("Welcome to a single game of tic tac toe.");
-		System.out.println("Player 1, choose your nickname");
-		final Player playerOne = new Player(new Symbol('O'), new PlayerName(scan.nextLine()));
+		System.out.println("Player 1, choose your symbol and nickname, you can choose only O or X, second player gets the other one.");
+		playerOne = new Player(new Symbol(getSymbol(scan)), new PlayerName(scan.nextLine()));
 		System.out.println("Player 2, choose your nickname");
-		final Player playerTwo = new Player(new Symbol('X'), new PlayerName(scan.nextLine()));
-		final SingleGame game = new SingleGame(playerOne, playerTwo);
+		playerTwo = new Player(new Symbol(getSymbol(scan)), new PlayerName(scan.nextLine()));
+
+	}
+
+	public void run() {
 		final BoardPrinter printer = new BoardPrinter();
-		final FieldNumberTranslator translator = new FieldNumberTranslator();
-		int playAgain;
-
-
+		final SingleGame game = new SingleGame(playerOne, playerTwo);
 		printer.printBoardWithNumbers(game.getBoardView());
 		GameResult latestResult;
-		Player nextPlayer = playerOne;
+		Player nextPlayer;
+
+		if (playerOne.getSymbol().getValue() == 'O') {
+			nextPlayer = playerOne;
+		} else {
+			nextPlayer = playerTwo;
+		}
+
 		do {
 			printer.printBoard(game.getBoardView());
 			System.out.println(nextPlayer.getName() + " with symbol: " + nextPlayer.getSymbol() + ", to move");
@@ -39,7 +51,7 @@ public class TicTacToeConsoleApp {
 		printResultOfTheGame(latestResult);
 
 		System.out.println("Would you like to play again? (1 - yes, 2 - no)");
-		playAgain = scan.nextInt();
+		playAgain = getNumber(scan);
 		if (playAgain == 1) {
 			resetBoard(game.getBoardView());
 			run();
@@ -78,5 +90,10 @@ public class TicTacToeConsoleApp {
 
 	private int getNumber(Scanner scanner) {
 		return Integer.parseInt(scanner.nextLine());
+	}
+
+	private char getSymbol(Scanner scanner) {
+		String symbol = scanner.nextLine();
+		return symbol.charAt(0);
 	}
 }
