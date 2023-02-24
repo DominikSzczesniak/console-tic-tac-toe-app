@@ -6,7 +6,7 @@ import pl.szczesniak.dominik.tictactoe.singlegame.domain.model.GameResult;
 import pl.szczesniak.dominik.tictactoe.singlegame.domain.model.GameStatus;
 import pl.szczesniak.dominik.tictactoe.singlegame.domain.model.Player;
 import pl.szczesniak.dominik.tictactoe.singlegame.domain.model.PlayerMove;
-import pl.szczesniak.dominik.tictactoe.singlegame.domain.model.PlayerName;
+import pl.szczesniak.dominik.tictactoe.singlegame.domain.model.Name;
 import pl.szczesniak.dominik.tictactoe.singlegame.domain.model.Symbol;
 import java.util.Scanner;
 
@@ -20,16 +20,23 @@ public class TicTacToeConsoleApp {
 
 	public TicTacToeConsoleApp() {
 		System.out.println("Welcome to a single game of tic tac toe.");
-		System.out.println("Player 1, choose your symbol and nickname, you can choose only O or X, second player gets the other one.");
-		playerOne = new Player(new Symbol(getSymbol(scan)), new PlayerName(scan.nextLine()));
-		System.out.println("Player 2, choose your nickname");
-		playerTwo = new Player(new Symbol(getSymbol(scan)), new PlayerName(scan.nextLine()));
+		System.out.println("The game consists of 2 players, each with a symbol X or O, player with symbol O gets to move first.");
+		System.out.println("Player 1, choose your name");
+		Name nameOne = new Name(scan.nextLine());
+		System.out.println(nameOne.getName() + " choose your symbol, enter O or X");
+		playerOne = new Player(new Symbol(getSymbol(scan)), nameOne);
+		System.out.println("Player 2, choose your name");
+		if (playerOne.getSymbol().getValue() == 'O') {
+		playerTwo = new Player(new Symbol('X'), new Name(scan.nextLine()));
+		} else {
+		playerTwo = new Player(new Symbol('O'), new Name(scan.nextLine()));
+		}
 
 	}
 
 	public void run() {
 		final BoardPrinter printer = new BoardPrinter();
-		final SingleGame game = new SingleGame(playerOne, playerTwo);
+		final SingleGame game = new SingleGame(playerOne, playerTwo, 3, 3);
 		printer.printBoardWithNumbers(game.getBoardView());
 		GameResult latestResult;
 		Player nextPlayer;
