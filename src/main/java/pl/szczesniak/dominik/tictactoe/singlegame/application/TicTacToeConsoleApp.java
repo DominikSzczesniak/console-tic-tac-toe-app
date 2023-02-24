@@ -55,7 +55,7 @@ public class TicTacToeConsoleApp {
 
 		do {
 			printer.printBoard(game.getBoardView());
-			System.out.println(nextPlayer.getName() + "(" + nextPlayer.getSymbol() + ") please enter a number 1-9 with unoccupied place");
+			System.out.println(nextPlayer.getName() + " (" + nextPlayer.getSymbol() + ") please enter a number 1-9 with unoccupied place");
 			latestResult = makeMove(game, scan, translator, nextPlayer);
 			nextPlayer = nextPlayer == playerTwo ? playerOne : playerTwo;
 		} while (latestResult.getGameStatus().equals(GameStatus.IN_PROGRESS));
