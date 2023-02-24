@@ -19,9 +19,15 @@ public class TicTacToeConsoleApp {
 	private final FieldNumberTranslator translator = new FieldNumberTranslator();
 
 	public TicTacToeConsoleApp() {
-		System.out.println("Welcome to a single game of tic tac toe.");
-		System.out.println("The game consists of 2 players, each with a symbol X or O, player with symbol O gets to move first.");
-		System.out.println("Player 1, choose your name");
+		System.out.println();
+		System.out.println("|----------------------------------------|");
+		System.out.println("|Welcome to a single game of tic tac toe.|");
+		System.out.println("|----------------------------------------|");
+		System.out.println();
+		System.out.println("-------------------------------------------------------------------------------------------------------");
+		System.out.println("|The game consists of 2 players, each with a symbol - X or O, player with symbol O gets to move first.|");
+		System.out.println("-------------------------------------------------------------------------------------------------------");
+		System.out.println("Player 1, choose your name:");
 		Name nameOne = new Name(scan.nextLine());
 		System.out.println(nameOne.getName() + " choose your symbol, enter O or X");
 		playerOne = new Player(new Symbol(getSymbol(scan)), nameOne);
@@ -49,7 +55,7 @@ public class TicTacToeConsoleApp {
 
 		do {
 			printer.printBoard(game.getBoardView());
-			System.out.println(nextPlayer.getName() + " with symbol: " + nextPlayer.getSymbol() + ", to move");
+			System.out.println(nextPlayer.getName() + "(" + nextPlayer.getSymbol() + ") please enter a number 1-9 with unoccupied place");
 			latestResult = makeMove(game, scan, translator, nextPlayer);
 			nextPlayer = nextPlayer == playerTwo ? playerOne : playerTwo;
 		} while (latestResult.getGameStatus().equals(GameStatus.IN_PROGRESS));
