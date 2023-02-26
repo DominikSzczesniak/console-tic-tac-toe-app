@@ -11,7 +11,8 @@ import pl.szczesniak.dominik.tictactoe.singlegame.domain.model.Symbol;
 import java.util.Scanner;
 
 public class TicTacToeConsoleApp {
-	
+
+	public static final Symbol SYMBOL_O = new Symbol('O');
 	final Scanner scan = new Scanner(System.in);
 	private final Player playerOne;
 	private final Player playerTwo;
@@ -33,9 +34,9 @@ public class TicTacToeConsoleApp {
 		playerOne = new Player(new Symbol(getSymbol(scan)), nameOne);
 		System.out.println("Player 2, choose your name");
 		if (playerOne.getSymbol().getValue() == 'O') {
-		playerTwo = new Player(new Symbol('X'), new Name(scan.nextLine()));
+			playerTwo = new Player(new Symbol('X'), new Name(scan.nextLine()));
 		} else {
-		playerTwo = new Player(new Symbol('O'), new Name(scan.nextLine()));
+			playerTwo = new Player(new Symbol('O'), new Name(scan.nextLine()));
 		}
 
 	}
@@ -47,7 +48,7 @@ public class TicTacToeConsoleApp {
 		GameResult latestResult;
 		Player nextPlayer;
 
-		if (playerOne.getSymbol().getValue() == 'O') {
+		if (playerOne.getSymbol() == SYMBOL_O) {
 			nextPlayer = playerOne;
 		} else {
 			nextPlayer = playerTwo;
@@ -55,7 +56,7 @@ public class TicTacToeConsoleApp {
 
 		do {
 			printer.printBoard(game.getBoardView());
-			System.out.println(nextPlayer.getName() + " (" + nextPlayer.getSymbol() + ") please enter a number 1-9 with unoccupied place");
+			System.out.println(nextPlayer.getName() + " with symbol: " + nextPlayer.getSymbol() + ", to move");
 			latestResult = makeMove(game, scan, translator, nextPlayer);
 			nextPlayer = nextPlayer == playerTwo ? playerOne : playerTwo;
 		} while (latestResult.getGameStatus().equals(GameStatus.IN_PROGRESS));
