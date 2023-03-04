@@ -11,7 +11,7 @@ import pl.szczesniak.dominik.tictactoe.singlegame.domain.model.Symbol;
 import java.util.Scanner;
 
 public class TicTacToeConsoleApp {
-
+	
 	final Scanner scan = new Scanner(System.in);
 	private final Player playerOne;
 	private final Player playerTwo;
