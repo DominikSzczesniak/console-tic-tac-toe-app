@@ -6,7 +6,6 @@ Console game of TicTacToe between 2 players.
 * [Technologies Used](#technologies-used)
 * [Features](#features)
 * [Screenshots](#screenshots)
-* [Usage](#usage)
 * [Project Status](#project-status)
 * [Room for Improvement](#room-for-improvement)
 
@@ -15,7 +14,8 @@ Console game of TicTacToe between 2 players.
 ## General Information
 - It is my first bigger project.
 - The purpose of the project was to use theoretical knowledge of OOP and SOLID in practice.
-- ??
+- Project architecture focused on ports and adapters.
+- Application was made with TDD in mind.
 
 
 ## Technologies Used
@@ -25,32 +25,20 @@ Console game of TicTacToe between 2 players.
 
 
 ## Features
-List the ready features here:
-- Awesome feature 1
-- Awesome feature 2
-- Awesome feature 3
+- Game supports board sizes of 3-6.
+- Application keeps track of game history in .txt file.
+- 
 
 
 ## Screenshots
-jakies lub gif lub filmik
-
-
-
-
-## Usage
-How does one go about using it?
-Provide various use cases and code examples here.
-
-`write-your-code-here`
+jakies screeny, gif lub filmik
 
 
 ## Project Status
-Project is: _in progress_. Game history is in the making.
+Project is: _in progress_. Game history in progress.
 
 
 ## Room for Improvement
-Include areas you believe need improvement / could be improved. Also add TODOs for future development.
-
 Room for improvement:
-- make it possible to play against a computer.
-- Improvement to be done 2
+- Make it possible to play against a computer.
+- Improve menu.
