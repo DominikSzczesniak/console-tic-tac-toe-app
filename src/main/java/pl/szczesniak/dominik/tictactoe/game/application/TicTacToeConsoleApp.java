@@ -1,5 +1,7 @@
 package pl.szczesniak.dominik.tictactoe.singlegame.application;
 
+import pl.szczesniak.dominik.tictactoe.gamehistory.adapter.AddingNewLinesToFileGameHistoryStorage;
+import pl.szczesniak.dominik.tictactoe.gamehistory.adapter.FilePerPlayerGameHistoryStorage;
 import pl.szczesniak.dominik.tictactoe.gamehistory.adapter.OverwritingFileGameHistoryStorage;
 import pl.szczesniak.dominik.tictactoe.gamehistory.domain.GameHistoryService;
 import pl.szczesniak.dominik.tictactoe.gamehistory.domain.SingleGameResult;
