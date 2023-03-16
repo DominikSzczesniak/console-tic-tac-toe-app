@@ -2,8 +2,9 @@ package pl.szczesniak.dominik.tictactoe.singlegame.domain;
 
 import pl.szczesniak.dominik.tictactoe.singlegame.domain.model.Symbol;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.Optional;
+
+import static java.util.Optional.empty;
 
 class SymbolOnBoardCounter {
 
@@ -15,53 +16,45 @@ class SymbolOnBoardCounter {
 		this.board = board;
 	}
 
-
 	int countSymbolInSequence(final int rowIndex, final int columnIndex) {
-		return max(
-				countSymbolInSequenceHorizontally(rowIndex),
-				maxCountSymbolInSequenceVertically(columnIndex),
-				countSymbolInSequenceDiagonally(rowIndex, columnIndex)
-		);
-	}
-
-	private Integer max(final int inSequenceHorizontally, final int inSequenceVertically, final int inSequenceDiagonally) {
-		return Collections.max(List.of(inSequenceHorizontally, inSequenceVertically, inSequenceDiagonally));
+		return Math.max(countSymbolInSequenceHorizontally(rowIndex),
+				Math.max(maxCountSymbolInSequenceVertically(columnIndex), countSymbolInSequenceDiagonally(rowIndex, columnIndex)));
 	}
 
 	int countSymbolInSequenceHorizontally(final int rowIndex) {
-		int count = 0;
-		int finalCount = 0;
-
-		for (int columnIndex = 0; columnIndex < board.length; columnIndex++) {
-			if (isSymbol(rowIndex, columnIndex)) {
-				count++;
-				if (columnIndex == board.length - 1) {
-					finalCount = Math.max(count, finalCount);
-				}
+		int currentSymbolCount = 0;
+		int maxSymbolCount = 0;
+		int columnIndex = 0;
+		CounterBoard counterBoard = new CounterBoard(board);
+		do {
+			final Optional<Field> field = counterBoard.getField(rowIndex, columnIndex);
+			if (field.isPresent() && field.get().matchesSymbol(symbol.getValue())) {
+				currentSymbolCount++;
 			} else {
-				finalCount = Math.max(count, finalCount);
-				count = 0;
+				currentSymbolCount = 0;
 			}
-		}
-		return finalCount;
+			maxSymbolCount = Math.max(currentSymbolCount, maxSymbolCount);
+		} while (counterBoard.getField(rowIndex, columnIndex++).isPresent());
+
+		return maxSymbolCount;
 	}
 
 	int maxCountSymbolInSequenceVertically(final int columnIndex) {
-		int count = 0;
-		int finalCount = 0;
-
-		for (int rowIndex = 0; rowIndex < board.length; rowIndex++) {
-			if (isSymbol(rowIndex, columnIndex)) {
-				count++;
-				if (rowIndex == board.length - 1) {
-					finalCount = Math.max(count, finalCount);
-				}
+		int currentSymbolCount = 0;
+		int maxSymbolCount = 0;
+		int rowIndex = 0;
+		CounterBoard counterBoard = new CounterBoard(board);
+		do {
+			final Optional<Field> field = counterBoard.getField(rowIndex, columnIndex);
+			if (field.isPresent() && field.get().matchesSymbol(symbol.getValue())) {
+				currentSymbolCount++;
 			} else {
-				finalCount = Math.max(count, finalCount);
-				count = 0;
+				currentSymbolCount = 0;
 			}
-		}
-		return finalCount;
+			maxSymbolCount = Math.max(currentSymbolCount, maxSymbolCount);
+		} while (counterBoard.getField(rowIndex++, columnIndex).isPresent());
+
+		return maxSymbolCount;
 	}
 
 	int countSymbolInSequenceDiagonally(final int rowIndex, final int columnIndex) {
@@ -75,53 +68,78 @@ class SymbolOnBoardCounter {
 		return Math.max(firstDiagonal, secondDiagonal);
 	}
 
-	private int checkBotLeftToTopRightDiagonal(int rowIndex, int columnIndex, int counter, int finalCounter) {
+	private int checkBotLeftToTopRightDiagonal(int rowIndex, int columnIndex, int currentSymbolCount, int maxSymbolCount) {
 		while (rowIndex != board.length - 1 && columnIndex != 0) {
 			rowIndex++;
 			columnIndex--;
 		}
 
-		for (; rowIndex >= 0; rowIndex--) {
-			if (columnIndex < board.length) {
-				if (isSymbol(rowIndex, columnIndex)) {
-					counter++;
-					if (rowIndex == 0) {
-						finalCounter = Math.max(counter, finalCounter);
-					}
-				} else {
-					finalCounter = Math.max(counter, finalCounter);
-					counter = 0;
-				}
+		CounterBoard counterBoard = new CounterBoard(board);
+		do {
+			final Optional<Field> field = counterBoard.getField(rowIndex, columnIndex);
+			if (field.isPresent() && field.get().matchesSymbol(symbol.getValue())) {
+				currentSymbolCount++;
+			} else {
+				currentSymbolCount = 0;
 			}
-			columnIndex++;
-		}
-		return finalCounter;
+			maxSymbolCount = Math.max(currentSymbolCount, maxSymbolCount);
+		} while (counterBoard.getField(rowIndex--, columnIndex++).isPresent());
+
+		return maxSymbolCount;
 	}
 
-	private int checkTopLeftToBotRightDiagonal(int rowIndex, int columnIndex, int counter, int finalCounter) {
+	private int checkTopLeftToBotRightDiagonal(int rowIndex, int columnIndex, int currentSymbolCount, int maxSymbolCount) {
 		while (rowIndex != 0 && columnIndex != 0) {
 			rowIndex--;
 			columnIndex--;
 		}
 
-		for (; rowIndex < board.length; rowIndex++) {
-			if (columnIndex < board.length) {
-				if (isSymbol(rowIndex, columnIndex)) {
-					counter++;
-					if (columnIndex == board.length - 1) {
-						finalCounter = Math.max(counter, finalCounter);
-					}
-				} else {
-					finalCounter = Math.max(counter, finalCounter);
-					counter = 0;
-				}
+		CounterBoard counterBoard = new CounterBoard(board);
+		do {
+			final Optional<Field> field = counterBoard.getField(rowIndex, columnIndex);
+			if (field.isPresent() && field.get().matchesSymbol(symbol.getValue())) {
+				currentSymbolCount++;
+			} else {
+				currentSymbolCount = 0;
 			}
-			columnIndex++;
-		}
-		return finalCounter;
+			maxSymbolCount = Math.max(currentSymbolCount, maxSymbolCount);
+		} while (counterBoard.getField(rowIndex++, columnIndex++).isPresent());
+
+		return maxSymbolCount;
 	}
 
-	private boolean isSymbol(final int rowIndex, final int columnIndex) {
-		return board[rowIndex][columnIndex] != null && board[rowIndex][columnIndex] == symbol.getValue();
+	private static class CounterBoard {
+		private final Character[][] value;
+
+		private CounterBoard(final Character[][] value) {
+			this.value = value;
+		}
+
+		Optional<Field> getField(final int row, final int column) {
+			if (row >= value.length || row < 0) {
+				return empty();
+			}
+			if (column >= value.length || column < 0) {
+				return empty();
+			}
+			return Optional.of(new Field(value[row][column]));
+		}
 	}
+
+	private static class Field {
+		private final Character value;
+
+		private Field(final Character value) {
+			this.value = value;
+		}
+
+		Optional<Character> getValue() {
+			return Optional.ofNullable(value);
+		}
+
+		boolean matchesSymbol(char symbol) {
+			return getValue().map(it -> it.equals(symbol)).orElse(false);
+		}
+	}
+
 }

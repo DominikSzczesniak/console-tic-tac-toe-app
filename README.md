@@ -21,13 +21,12 @@ Console game of TicTacToe between 2 players.
 ## Technologies Used
 - Java - version 17.0.5
 - Maven
-- GIT??
+- GIT
 
 
 ## Features
 - Game supports board sizes of 3-6.
 - Application keeps track of game history in .txt file.
-- 
 
 
 ## Screenshots
@@ -35,10 +34,9 @@ jakies screeny, gif lub filmik
 
 
 ## Project Status
-Project is: _in progress_. Game history in progress.
+Project is finished.
 
 
 ## Room for Improvement
 Room for improvement:
 - Make it possible to play against a computer.
-- Improve menu.

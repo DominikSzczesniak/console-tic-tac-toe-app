@@ -13,7 +13,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.linesOf;
 class OverwritingFileGameHistoryStorageTest {
 
 	@TempDir
-	final File testFile = new File("temporaryfile.txt");
+	 File testFile = new File("temporaryfile.txt");
 
 	@Test
 	void should_store_and_load() {
