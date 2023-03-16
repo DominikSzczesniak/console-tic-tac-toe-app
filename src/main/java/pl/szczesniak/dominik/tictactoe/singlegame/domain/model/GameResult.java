@@ -1,7 +1,5 @@
 package pl.szczesniak.dominik.tictactoe.singlegame.domain.model;
 
-import pl.szczesniak.dominik.tictactoe.player.model.PlayerName;
-
 public class GameResult {
     private final GameStatus gameStatus;
     private final Player whoWon;
