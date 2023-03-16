@@ -1,4 +1,4 @@
-package pl.szczesniak.dominik.tictactoe.singlegame.application;
+package pl.szczesniak.dominik.tictactoe.game.application;
 
 import pl.szczesniak.dominik.tictactoe.singlegame.domain.SingleGame;
 import pl.szczesniak.dominik.tictactoe.singlegame.domain.exceptions.SpotAlreadyTakenOnBoardException;
@@ -81,7 +81,7 @@ class TicTacToeGame {
 
 	private void printResultOfTheGame(final GameResult result) {
 		if (GameStatus.WIN.equals(result.getGameStatus())) {
-			System.out.println("Congratulations, " + result.getWhoWon().getValue() + " won the round.");
+			System.out.println("Congratulations, " + result.getWhoWon().getName() + " won the round.");
 		} else if (GameStatus.DRAW.equals(result.getGameStatus())) {
 			System.out.println("It's a draw.");
 		} else {

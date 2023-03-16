@@ -1,19 +1,7 @@
-package pl.szczesniak.dominik.tictactoe.singlegame.application;
+package pl.szczesniak.dominik.tictactoe.game.application;
 
-import pl.szczesniak.dominik.tictactoe.gamehistory.adapter.AddingNewLinesToFileGameHistoryStorage;
-import pl.szczesniak.dominik.tictactoe.gamehistory.adapter.FilePerPlayerGameHistoryStorage;
-import pl.szczesniak.dominik.tictactoe.gamehistory.adapter.OverwritingFileGameHistoryStorage;
-import pl.szczesniak.dominik.tictactoe.gamehistory.domain.GameHistoryService;
-import pl.szczesniak.dominik.tictactoe.gamehistory.domain.SingleGameResult;
-import pl.szczesniak.dominik.tictactoe.player.model.PlayerName;
 import pl.szczesniak.dominik.tictactoe.singlegame.domain.exceptions.IncorrectPlayerNameException;
-import pl.szczesniak.dominik.tictactoe.singlegame.domain.GameHistoryHandler;
-import pl.szczesniak.dominik.tictactoe.singlegame.domain.SingleGame;
-import pl.szczesniak.dominik.tictactoe.singlegame.domain.exceptions.SpotAlreadyTakenOnBoardException;
-import pl.szczesniak.dominik.tictactoe.singlegame.domain.model.GameResult;
-import pl.szczesniak.dominik.tictactoe.singlegame.domain.model.GameStatus;
 import pl.szczesniak.dominik.tictactoe.singlegame.domain.model.Player;
-import pl.szczesniak.dominik.tictactoe.singlegame.domain.model.PlayerMove;
 import pl.szczesniak.dominik.tictactoe.singlegame.domain.model.PlayerName;
 import pl.szczesniak.dominik.tictactoe.singlegame.domain.model.Symbol;
 
@@ -21,17 +9,8 @@ import java.util.Scanner;
 
 public class TicTacToeConsoleApp {
 
-	private final GameHistoryService gameHistoryService = new GameHistoryService(new OverwritingFileGameHistoryStorage("Game_history.txt"));
-	private final GameHistoryService gameHistoryService = new GameHistoryService(new OverwritingFileGameHistoryStorage());
 	private final Scanner scan = new Scanner(System.in);
 	private final Symbol SYMBOL_O = new Symbol('O');
-
-	GameHistoryHandler gameHistoryHandler = new GameHistoryHandler();
-	final Scanner scan = new Scanner(System.in);
-	private final Player playerOne;
-	private final Player playerTwo;
-	private int playAgain;
-	private final FieldNumberTranslator translator = new FieldNumberTranslator();
 
 	public TicTacToeConsoleApp() {
 		System.out.println();
@@ -69,12 +48,6 @@ public class TicTacToeConsoleApp {
 
 		new TicTacToeGame(playerOne, playerTwo, boardSize).play();
 
-		printer.printBoard(game.getBoardView());
-		printResultOfTheGame(latestResult);
-		SingleGameResult singleGameResult = new SingleGameResult(latestResult.getWhoWon());
-		gameHistoryService.store(singleGameResult);
-		System.out.println("Number of " + latestResult.getWhoWon() + "'s wins: " + gameHistoryService.loadPlayerScore(latestResult.getWhoWon()).getValue());
-
 		System.out.println("Do you want to make a new setup? 1 - yes, 2 - no");
 		int choice = Integer.parseInt(scan.nextLine());
 		if (choice == 1) {
@@ -99,4 +72,5 @@ public class TicTacToeConsoleApp {
 		final String symbol = scanner.nextLine();
 		return symbol.charAt(0);
 	}
+
 }

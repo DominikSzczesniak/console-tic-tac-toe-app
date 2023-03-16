@@ -2,10 +2,7 @@ package pl.szczesniak.dominik.tictactoe.game.application;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import pl.szczesniak.dominik.tictactoe.game.application.FieldCoordinates;
-import pl.szczesniak.dominik.tictactoe.game.application.FieldNumberTranslator;
 
-import static org.assertj.core.api.Assertions.assertThat;
 
 class FieldNumberTranslatorTest {
 

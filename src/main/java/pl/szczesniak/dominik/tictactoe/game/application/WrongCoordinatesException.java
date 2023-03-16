@@ -1,4 +1,4 @@
-package pl.szczesniak.dominik.tictactoe.singlegame.application;
+package pl.szczesniak.dominik.tictactoe.game.application;
 
-class WrongCoordinatesException extends RuntimeException {
+public class WrongCoordinatesException extends RuntimeException {
 }
