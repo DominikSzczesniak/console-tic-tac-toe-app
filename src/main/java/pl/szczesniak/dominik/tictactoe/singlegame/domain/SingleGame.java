@@ -1,53 +1,78 @@
 package pl.szczesniak.dominik.tictactoe.singlegame.domain;
 
+import pl.szczesniak.dominik.tictactoe.singlegame.domain.exceptions.GameOverException;
 import pl.szczesniak.dominik.tictactoe.singlegame.domain.exceptions.OtherPlayerTurnException;
 import pl.szczesniak.dominik.tictactoe.singlegame.domain.exceptions.PlayerIsNotThePartOfTheGameException;
+import pl.szczesniak.dominik.tictactoe.singlegame.domain.exceptions.SizeNotSupportedException;
 import pl.szczesniak.dominik.tictactoe.singlegame.domain.exceptions.SpotAlreadyTakenOnBoardException;
 import pl.szczesniak.dominik.tictactoe.singlegame.domain.exceptions.SymbolIsUnsupportedException;
 import pl.szczesniak.dominik.tictactoe.singlegame.domain.model.GameResult;
 import pl.szczesniak.dominik.tictactoe.singlegame.domain.model.GameStatus;
-import pl.szczesniak.dominik.tictactoe.singlegame.domain.model.PairOfCoordinates;
 import pl.szczesniak.dominik.tictactoe.singlegame.domain.model.Player;
 import pl.szczesniak.dominik.tictactoe.singlegame.domain.model.PlayerMove;
 import pl.szczesniak.dominik.tictactoe.singlegame.domain.model.Symbol;
 
+import java.util.Map;
 import java.util.Set;
 
 public class SingleGame {
 
+    private static final Set<Symbol> SUPPORTED_SYMBOLS = Set.of(new Symbol('X'), new Symbol('O'));
+
+    private static final Map<Integer, Integer> boardSizeToRequiredSymbolsToWin = Map.of(
+            3, 3,
+            4, 3,
+            5, 4,
+            6, 4
+    );
+
     private final Board board;
-    private final Set<Symbol> supportedSymbols = Set.of(new Symbol('X'), new Symbol('O'));
     private final Player playerOne;
     private final Player playerTwo;
-    private Player latestMoveByPlayer;
 
-    public SingleGame(Player playerOne, Player playerTwo) {
-        if (supportedSymbols.stream().noneMatch(marker -> marker.getValue() == playerOne.getSymbol().getValue())) {
+    private Player latestMoveByPlayer;
+    private boolean gameOver;
+
+    public SingleGame(final Player playerOne, final Player playerTwo, final int boardSize) {
+        if (SUPPORTED_SYMBOLS.stream().noneMatch(marker -> marker.getValue() == playerOne.getSymbol().getValue())) {
             throw new SymbolIsUnsupportedException("Symbol " + playerOne.getSymbol().getValue() + " is unsupported.");
         }
-        if (supportedSymbols.stream().noneMatch(marker -> marker.getValue() == playerTwo.getSymbol().getValue())) {
+        if (SUPPORTED_SYMBOLS.stream().noneMatch(marker -> marker.getValue() == playerTwo.getSymbol().getValue())) {
             throw new SymbolIsUnsupportedException("Symbol " + playerTwo.getSymbol().getValue() + " is unsupported.");
         }
-        board = new Board(3, 3);
+        if (boardSize < 3) {
+            throw new SizeNotSupportedException("Board must be size 3 or bigger");
+        }
+        board = new Board(boardSize, boardSize);
         this.playerOne = playerOne;
         this.playerTwo = playerTwo;
     }
-
 
     public Character[][] getBoardView() {
         return board.getCurrentState();
     }
 
     public GameResult makeMove(final Player player, final PlayerMove move) {
+        checkGameNotOver();
         checkPlayerIsPartOfSingleGame(player);
         checkIsPlayerTurn(player);
         checkIsSpotNotTaken(player, move);
+
         board.placeSymbol(player.getSymbol().getValue(), move.getRowIndex(), move.getColumnIndex());
         latestMoveByPlayer = player;
-        return resolveGameResult();
+
+        final GameResult result = resolveGameResult(move);
+        gameOver = !result.getGameStatus().equals(GameStatus.IN_PROGRESS);
+        return result;
     }
 
-    private void checkPlayerIsPartOfSingleGame(Player player) {
+    private void checkGameNotOver() {
+        if (gameOver) {
+            throw new GameOverException("Game is already over.");
+        }
+    }
+
+    private void checkPlayerIsPartOfSingleGame(final Player player) {
         if (!player.equals(playerOne) && !player.equals(playerTwo)) {
             throw new PlayerIsNotThePartOfTheGameException("Player " + player + " is not part of the game");
         }
@@ -65,77 +90,25 @@ public class SingleGame {
         }
     }
 
-    private GameResult resolveGameResult() {
-        if (checkIfPlayerWon(latestMoveByPlayer)) {
+    private GameResult resolveGameResult(final PlayerMove move) {
+        if (checkIfPlayerWon(latestMoveByPlayer, move)) {
             return new GameResult(GameStatus.WIN, latestMoveByPlayer);
         }
         if (isDraw()) {
             return new GameResult(GameStatus.DRAW, null);
         }
-
         return new GameResult(GameStatus.IN_PROGRESS, null);
     }
 
-    private boolean checkIfPlayerWon(final Player player) {
-        final char symbol = player.getSymbol().getValue();
-
-        if (checkHorizontally(symbol)) {
-            return true;
-        }
-        if (checkVertically(symbol)) {
-            return true;
-        }
-        if (checkDiagonally(symbol)) {
-            return true;
-        }
-
-        return false;
+    private boolean checkIfPlayerWon(final Player player, final PlayerMove move) {
+        final SymbolOnBoardCounter counter = new SymbolOnBoardCounter(player.getSymbol(), getBoardView());
+        return counter.countSymbolInSequence(move.getRowIndex(), move.getColumnIndex()) >= boardSizeToRequiredSymbolsToWin.get(board.getSize());
     }
 
-    private boolean checkDiagonally(char symbol) {
-        if (board.hasSymbolOnFields(symbol,
-                new PairOfCoordinates(0, 0),
-                new PairOfCoordinates(1, 1),
-                new PairOfCoordinates(2, 2))) {
-            return true;
-        }
-        if (board.hasSymbolOnFields(symbol,
-                new PairOfCoordinates(0, 2),
-                new PairOfCoordinates(1, 1),
-                new PairOfCoordinates(2, 0))) {
-            return true;
-        }
-        return false;
-    }
-
-    private boolean checkVertically(char symbol) {
-        for (int i = 0; i < 3; i++) {
-            if (board.hasSymbolOnFields(symbol,
-                    new PairOfCoordinates(0, i),
-                    new PairOfCoordinates(1, i),
-                    new PairOfCoordinates(2, i))) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean checkHorizontally(char symbol) {
-        for (int i = 0; i < 3; i++) {
-            if (board.hasSymbolOnFields(symbol,
-                    new PairOfCoordinates(i, 0),
-                    new PairOfCoordinates(i, 1),
-                    new PairOfCoordinates(i, 2))) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean isDraw() {
+    private boolean isDraw() {
         final Character[][] drawArray = getBoardView();
         for (int i = 0; i < board.getRowsNumber(); i++) {
-            for (int k = 0; k < board.getColumnNumber(); k++) {
+            for (int k = 0; k < board.getColumnsNumber(); k++) {
                 if (drawArray[i][k] == null) {
                     return false;
                 }
@@ -143,5 +116,4 @@ public class SingleGame {
         }
         return true;
     }
-
 }
