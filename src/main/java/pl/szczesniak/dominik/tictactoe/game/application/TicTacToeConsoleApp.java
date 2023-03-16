@@ -1,4 +1,4 @@
-package pl.szczesniak.dominik.tictactoe.singlegame.application;
+package pl.szczesniak.dominik.tictactoe.game.application;
 
 import pl.szczesniak.dominik.tictactoe.singlegame.domain.exceptions.IncorrectPlayerNameException;
 import pl.szczesniak.dominik.tictactoe.singlegame.domain.model.Player;

@@ -1,8 +1,10 @@
-package pl.szczesniak.dominik.tictactoe.singlegame.application;
+package pl.szczesniak.dominik.tictactoe.game.application;
 
-class FieldCoordinatesTranslator {
+import pl.szczesniak.dominik.tictactoe.game.application.FieldCoordinates;
 
-	FieldCoordinates toCoordinates(final String coordinatesLine, final int boardSize) {
+public class FieldCoordinatesTranslator {
+
+	public FieldCoordinates toCoordinates(final String coordinatesLine, final int boardSize) {
 		final int row = mapToRow(coordinatesLine);
 		final int column = mapToColumn(coordinatesLine);
 		return new FieldCoordinates(row, column, boardSize);
