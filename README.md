@@ -38,5 +38,4 @@ Project is finished.
 
 
 ## Room for Improvement
-Room for improvement:
 - Make it possible to play against a computer.
