@@ -29,6 +29,11 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>pl.szczesniak.dominik</groupId>
+      <artifactId>TicTacToe</artifactId>
+      <version>1.0.0</version>
+    </dependency>
+    <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
       <version>3.24.2</version>
