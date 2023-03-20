@@ -1,4 +1,4 @@
-package pl.szczesniak.dominik.tictactoe.game.application;
+package pl.szczesniak.dominik.tictactoe.consoletictactoeapp.game.application;
 
 import java.util.Objects;
 

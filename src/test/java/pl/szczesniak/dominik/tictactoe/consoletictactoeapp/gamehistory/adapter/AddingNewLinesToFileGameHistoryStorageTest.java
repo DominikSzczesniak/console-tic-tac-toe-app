@@ -1,8 +1,9 @@
-package pl.szczesniak.dominik.tictactoe.gamehistory.adapter;
+package pl.szczesniak.dominik.tictactoe.consoletictactoeapp.gamehistory.adapter;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
-import pl.szczesniak.dominik.tictactoe.gamehistory.domain.SingleGameResult;
+import pl.szczesniak.dominik.tictactoe.consoletictactoeapp.gamehistory.adapter.AddingNewLinesToFileGameHistoryStorage;
+import pl.szczesniak.dominik.tictactoe.consoletictactoeapp.gamehistory.domain.SingleGameResult;
 import pl.szczesniak.dominik.tictactoe.player.model.PlayerName;
 
 import java.io.File;
@@ -10,27 +11,28 @@ import java.io.File;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.linesOf;
 
-class OverwritingFileGameHistoryStorageTest {
+class AddingNewLinesToFileGameHistoryStorageTest {
 
 	@TempDir
-	 File testFile = new File("temporaryfile.txt");
+	File testFile = new File("temporaryfile.txt");
 
 	@Test
 	void should_store_and_load() {
 		// given
-		final OverwritingFileGameHistoryStorage tut = new OverwritingFileGameHistoryStorage(testFile.getName());
+		final AddingNewLinesToFileGameHistoryStorage tut = new AddingNewLinesToFileGameHistoryStorage(testFile.getName());
 
 		// when
 		tut.store(new SingleGameResult(new PlayerName("Kamil")));
+		tut.store(new SingleGameResult(new PlayerName("Kamil")));
 
 		// then
-		assertThat(tut.loadPlayerScore(new PlayerName("Kamil")).getValue()).isEqualTo(1);
+		assertThat(tut.loadPlayerScore(new PlayerName("Kamil")).getValue()).isEqualTo(2);
 	}
 
 	@Test
-	void should_write_and_store_game_result() {
+	void write_store() {
 		// given
-		final OverwritingFileGameHistoryStorage tut = new OverwritingFileGameHistoryStorage(testFile.getName());
+		final AddingNewLinesToFileGameHistoryStorage tut = new AddingNewLinesToFileGameHistoryStorage(testFile.getName());
 
 		// when
 		tut.store(new SingleGameResult(new PlayerName("Kamil")));
@@ -43,11 +45,17 @@ class OverwritingFileGameHistoryStorageTest {
 		// then
 		assertThat(linesOf(new File(testFile.getName()))).containsExactly(
 				"Kamil",
+				"1",
+				"Patryk",
+				"1",
+				"Adrian",
+				"1",
+				"Kamil",
 				"2",
 				"Patryk",
-				"3",
-				"Adrian",
-				"1"
+				"2",
+				"Patryk",
+				"3"
 		);
 	}
 

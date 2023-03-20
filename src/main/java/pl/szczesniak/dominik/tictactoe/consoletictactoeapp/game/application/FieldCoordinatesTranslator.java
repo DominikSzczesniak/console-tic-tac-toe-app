@@ -1,6 +1,4 @@
-package pl.szczesniak.dominik.tictactoe.game.application;
-
-import pl.szczesniak.dominik.tictactoe.game.application.FieldCoordinates;
+package pl.szczesniak.dominik.tictactoe.consoletictactoeapp.game.application;
 
 public class FieldCoordinatesTranslator {
 

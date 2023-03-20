@@ -1,7 +1,7 @@
-package pl.szczesniak.dominik.tictactoe.gamehistory.adapter;
+package pl.szczesniak.dominik.tictactoe.consoletictactoeapp.gamehistory.adapter;
 
-import pl.szczesniak.dominik.tictactoe.gamehistory.domain.GameHistoryStorage;
-import pl.szczesniak.dominik.tictactoe.gamehistory.domain.SingleGameResult;
+import pl.szczesniak.dominik.tictactoe.consoletictactoeapp.gamehistory.domain.SingleGameResult;
+import pl.szczesniak.dominik.tictactoe.consoletictactoeapp.gamehistory.domain.GameHistoryStorage;
 import pl.szczesniak.dominik.tictactoe.player.model.PlayerName;
 import pl.szczesniak.dominik.tictactoe.player.model.PlayerScore;
 
@@ -10,8 +10,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 public class FilePerPlayerGameHistoryStorage implements GameHistoryStorage {
 

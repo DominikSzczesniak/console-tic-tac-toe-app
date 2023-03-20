@@ -1,7 +1,7 @@
-package pl.szczesniak.dominik.tictactoe.gamehistory.adapter;
+package pl.szczesniak.dominik.tictactoe.consoletictactoeapp.gamehistory.adapter;
 
-import pl.szczesniak.dominik.tictactoe.gamehistory.domain.GameHistoryStorage;
-import pl.szczesniak.dominik.tictactoe.gamehistory.domain.SingleGameResult;
+import pl.szczesniak.dominik.tictactoe.consoletictactoeapp.gamehistory.domain.GameHistoryStorage;
+import pl.szczesniak.dominik.tictactoe.consoletictactoeapp.gamehistory.domain.SingleGameResult;
 import pl.szczesniak.dominik.tictactoe.player.model.PlayerName;
 import pl.szczesniak.dominik.tictactoe.player.model.PlayerScore;
 

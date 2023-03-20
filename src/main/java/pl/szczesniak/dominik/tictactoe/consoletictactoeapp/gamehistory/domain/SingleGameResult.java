@@ -1,4 +1,4 @@
-package pl.szczesniak.dominik.tictactoe.gamehistory.domain;
+package pl.szczesniak.dominik.tictactoe.consoletictactoeapp.gamehistory.domain;
 
 import pl.szczesniak.dominik.tictactoe.player.model.PlayerName;
 
