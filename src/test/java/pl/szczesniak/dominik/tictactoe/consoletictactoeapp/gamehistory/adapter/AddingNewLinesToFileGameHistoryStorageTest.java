@@ -3,7 +3,7 @@ package pl.szczesniak.dominik.tictactoe.consoletictactoeapp.gamehistory.adapter;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import pl.szczesniak.dominik.tictactoe.consoletictactoeapp.gamehistory.domain.SingleGameResult;
-import pl.szczesniak.dominik.tictactoe.consoletictactoeapp.player.model.PlayerName;
+import pl.szczesniak.dominik.tictactoe.core.singlegame.domain.model.PlayerName;
 
 import java.io.File;
 

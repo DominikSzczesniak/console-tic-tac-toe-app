@@ -2,8 +2,8 @@ package pl.szczesniak.dominik.tictactoe.consoletictactoeapp.gamehistory.adapter;
 
 import pl.szczesniak.dominik.tictactoe.consoletictactoeapp.gamehistory.domain.GameHistoryStorage;
 import pl.szczesniak.dominik.tictactoe.consoletictactoeapp.gamehistory.domain.SingleGameResult;
-import pl.szczesniak.dominik.tictactoe.consoletictactoeapp.player.model.PlayerName;
 import pl.szczesniak.dominik.tictactoe.consoletictactoeapp.player.model.PlayerScore;
+import pl.szczesniak.dominik.tictactoe.core.singlegame.domain.model.PlayerName;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -17,7 +17,7 @@ public class FilePerPlayerGameHistoryStorage implements GameHistoryStorage {
 	@Override
 	public void store(SingleGameResult singleGameResult) {
 		createFile(singleGameResult.getValue());
-		final String playerName = singleGameResult.getValue().getName();
+		final String playerName = singleGameResult.getValue().getValue();
 		int playerWins = loadPlayerScore(singleGameResult.getValue()).getValue();
 
 		try {
@@ -31,7 +31,7 @@ public class FilePerPlayerGameHistoryStorage implements GameHistoryStorage {
 					buffer.append(line + "\n");
 			}
 			if (!playerIsInFile(singleGameResult.getValue())) {
-				buffer.append(singleGameResult.getValue().getName() + "\n");
+				buffer.append(singleGameResult.getValue().getValue() + "\n");
 				buffer.append(1 + "\n");
 			}
 			br.close();
@@ -49,10 +49,10 @@ public class FilePerPlayerGameHistoryStorage implements GameHistoryStorage {
 	public PlayerScore loadPlayerScore(final PlayerName playerName) {
 		int wins = 0;
 		try {
-			BufferedReader br = new BufferedReader(new FileReader(playerName.getName() + ".txt"));
+			BufferedReader br = new BufferedReader(new FileReader(playerName.getValue() + ".txt"));
 			String line;
 			while ((line = br.readLine()) != null) {
-				if (line.equals(playerName.getName())) {
+				if (line.equals(playerName.getValue())) {
 					wins = Integer.parseInt(br.readLine());
 					break;
 				}
@@ -66,7 +66,7 @@ public class FilePerPlayerGameHistoryStorage implements GameHistoryStorage {
 
 	private void createFile(PlayerName name) {
 		try {
-			File myObj = new File(name.getName() + ".txt");
+			File myObj = new File(name.getValue() + ".txt");
 			if (myObj.createNewFile()) {
 				System.out.println("File created: " + myObj.getName());
 			}
@@ -79,10 +79,10 @@ public class FilePerPlayerGameHistoryStorage implements GameHistoryStorage {
 
 	private boolean playerIsInFile(final PlayerName name) {
 		try {
-			BufferedReader br = new BufferedReader(new FileReader(name.getName() + ".txt"));
+			BufferedReader br = new BufferedReader(new FileReader(name.getValue() + ".txt"));
 			String line;
 			while ((line = br.readLine()) != null) {
-				if (line.equals(name.getName())) {
+				if (line.equals(name.getValue())) {
 					return true;
 				}
 			}

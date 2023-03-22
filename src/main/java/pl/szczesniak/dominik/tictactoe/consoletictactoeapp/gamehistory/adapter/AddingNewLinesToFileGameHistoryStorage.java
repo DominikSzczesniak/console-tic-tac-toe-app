@@ -2,8 +2,8 @@ package pl.szczesniak.dominik.tictactoe.consoletictactoeapp.gamehistory.adapter;
 
 import pl.szczesniak.dominik.tictactoe.consoletictactoeapp.gamehistory.domain.GameHistoryStorage;
 import pl.szczesniak.dominik.tictactoe.consoletictactoeapp.gamehistory.domain.SingleGameResult;
-import pl.szczesniak.dominik.tictactoe.consoletictactoeapp.player.model.PlayerName;
 import pl.szczesniak.dominik.tictactoe.consoletictactoeapp.player.model.PlayerScore;
+import pl.szczesniak.dominik.tictactoe.core.singlegame.domain.model.PlayerName;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -27,7 +27,7 @@ public class AddingNewLinesToFileGameHistoryStorage implements GameHistoryStorag
 		try {
 			FileWriter fw = new FileWriter(fileName, true);
 			BufferedWriter bw = new BufferedWriter(fw);
-			bw.write(singleGameResult.getValue().getName() + "\n");
+			bw.write(singleGameResult.getValue().getValue() + "\n");
 			bw.write(playerWins + 1 + "\n");
 			bw.close();
 		} catch (IOException e) {
@@ -42,7 +42,7 @@ public class AddingNewLinesToFileGameHistoryStorage implements GameHistoryStorag
 			BufferedReader br = new BufferedReader(new FileReader(fileName));
 			String line;
 			while ((line = br.readLine()) != null) {
-				if (line.equals(playerName.getName())) {
+				if (line.equals(playerName.getValue())) {
 					wins = Integer.parseInt(br.readLine());
 				}
 			}

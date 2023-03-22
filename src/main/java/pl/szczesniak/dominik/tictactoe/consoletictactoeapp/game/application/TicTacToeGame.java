@@ -52,7 +52,7 @@ class TicTacToeGame {
 		printResultOfTheGame(latestResult);
 		SingleGameResult singleGameResult = new SingleGameResult(latestResult.getWhoWon());
 		gameHistoryService.store(singleGameResult);
-		System.out.println("Number of " + latestResult.getWhoWon() + "'s wins: " + gameHistoryService.loadPlayerScore(latestResult.getWhoWon()).getValue());
+		System.out.println("Number of " + latestResult.getWhoWon().getValue() + "'s wins: " + gameHistoryService.loadPlayerScore(latestResult.getWhoWon()).getValue());
 
 		askIfPlayAgain();
 	}
