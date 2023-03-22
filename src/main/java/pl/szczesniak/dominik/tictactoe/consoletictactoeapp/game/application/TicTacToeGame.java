@@ -1,16 +1,24 @@
 package pl.szczesniak.dominik.tictactoe.consoletictactoeapp.game.application;
 
-import pl.szczesniak.dominik.tictactoe.singlegame.domain.SingleGame;
-import pl.szczesniak.dominik.tictactoe.singlegame.domain.exceptions.SpotAlreadyTakenOnBoardException;
-import pl.szczesniak.dominik.tictactoe.singlegame.domain.model.GameResult;
-import pl.szczesniak.dominik.tictactoe.singlegame.domain.model.GameStatus;
-import pl.szczesniak.dominik.tictactoe.singlegame.domain.model.Player;
-import pl.szczesniak.dominik.tictactoe.singlegame.domain.model.PlayerMove;
-import pl.szczesniak.dominik.tictactoe.singlegame.domain.model.Symbol;
+
+import pl.szczesniak.dominik.tictactoe.consoletictactoeapp.gamehistory.adapter.OverwritingFileGameHistoryStorage;
+import pl.szczesniak.dominik.tictactoe.consoletictactoeapp.gamehistory.domain.GameHistoryService;
+import pl.szczesniak.dominik.tictactoe.consoletictactoeapp.gamehistory.domain.SingleGameResult;
+import pl.szczesniak.dominik.tictactoe.core.singlegame.domain.SingleGame;
+import pl.szczesniak.dominik.tictactoe.core.singlegame.domain.exceptions.SpotAlreadyTakenOnBoardException;
+import pl.szczesniak.dominik.tictactoe.core.singlegame.domain.model.GameResult;
+import pl.szczesniak.dominik.tictactoe.core.singlegame.domain.model.GameStatus;
+import pl.szczesniak.dominik.tictactoe.core.singlegame.domain.model.Player;
+import pl.szczesniak.dominik.tictactoe.core.singlegame.domain.model.PlayerMove;
+import pl.szczesniak.dominik.tictactoe.core.singlegame.domain.model.Symbol;
+
+
 
 import java.util.Scanner;
 
 class TicTacToeGame {
+
+	private final GameHistoryService gameHistoryService = new GameHistoryService(new OverwritingFileGameHistoryStorage("Game_history.txt"));
 	private final FieldCoordinatesTranslator translator = new FieldCoordinatesTranslator();
 	private final Scanner scan = new Scanner(System.in);
 	private SingleGame game;
@@ -39,8 +47,12 @@ class TicTacToeGame {
 			nextPlayer = getNextPlayer(nextPlayer);
 		} while (latestResult.getGameStatus().equals(GameStatus.IN_PROGRESS));
 
+
 		printer.printBoard(game.getBoardView());
 		printResultOfTheGame(latestResult);
+		SingleGameResult singleGameResult = new SingleGameResult(latestResult.getWhoWon());
+		gameHistoryService.store(singleGameResult);
+		System.out.println("Number of " + latestResult.getWhoWon() + "'s wins: " + gameHistoryService.loadPlayerScore(latestResult.getWhoWon()).getValue());
 
 		askIfPlayAgain();
 	}

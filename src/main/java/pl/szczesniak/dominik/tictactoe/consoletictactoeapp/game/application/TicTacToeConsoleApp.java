@@ -1,9 +1,10 @@
 package pl.szczesniak.dominik.tictactoe.consoletictactoeapp.game.application;
 
-import pl.szczesniak.dominik.tictactoe.singlegame.domain.exceptions.IncorrectPlayerNameException;
-import pl.szczesniak.dominik.tictactoe.singlegame.domain.model.Player;
-import pl.szczesniak.dominik.tictactoe.singlegame.domain.model.PlayerName;
-import pl.szczesniak.dominik.tictactoe.singlegame.domain.model.Symbol;
+
+import pl.szczesniak.dominik.tictactoe.core.singlegame.domain.exceptions.IncorrectPlayerNameException;
+import pl.szczesniak.dominik.tictactoe.core.singlegame.domain.model.Player;
+import pl.szczesniak.dominik.tictactoe.core.singlegame.domain.model.PlayerName;
+import pl.szczesniak.dominik.tictactoe.core.singlegame.domain.model.Symbol;
 
 import java.util.Scanner;
 

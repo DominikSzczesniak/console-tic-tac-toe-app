@@ -1,7 +1,8 @@
 package pl.szczesniak.dominik.tictactoe.consoletictactoeapp.gamehistory.domain;
 
-import pl.szczesniak.dominik.tictactoe.player.model.PlayerName;
-import pl.szczesniak.dominik.tictactoe.player.model.PlayerScore;
+
+import pl.szczesniak.dominik.tictactoe.consoletictactoeapp.player.model.PlayerName;
+import pl.szczesniak.dominik.tictactoe.consoletictactoeapp.player.model.PlayerScore;
 
 public interface GameHistoryStorage {
 
