@@ -30,8 +30,8 @@ Library part of TicTacToe can be found here: https://github.com/DominikSzczesnia
 
 ## How to run
 - Download library from: https://github.com/DominikSzczesniak/TicTacToe
-- Build a jar file by using Maven install
-- Now you can run the app from Launcher class
+- Build a jar file using Maven install
+- Run the app from Launcher class
 
 
 ## Features
